@@ -1201,30 +1201,42 @@ body.edit-mode [data-editable]:focus {
 .pieces-panel.active { display: block; }
 
 .pieces-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 16px; margin-bottom: 20px;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 12px; margin-bottom: 20px;
 }
 .piece-card { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--gray-200); background: var(--white); }
 .piece-img {
-  position: relative; width: 100%; padding-bottom: 65%;
+  position: relative; width: 100%; aspect-ratio: 4/3;
   background: var(--gray-200); background-size: cover; background-position: center;
-  cursor: pointer; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  display: block;
+}
+/* Imagen real dentro del .piece-img */
+.piece-img .piece-real-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  cursor: zoom-in;
+  display: block;
 }
 .piece-placeholder {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 8px; color: var(--gray-400); font-size: 12px; font-weight: 500;
-  position: absolute; inset: 0; text-align: center; padding: 12px;
+  gap: 6px; color: var(--gray-400); font-size: 11px; font-weight: 500;
+  position: absolute; inset: 0; text-align: center; padding: 10px;
+  cursor: default;
 }
-.piece-placeholder span { font-size: 28px; }
+.piece-placeholder span { font-size: 22px; }
 .piece-overlay {
   position: absolute; inset: 0; background: rgba(0,0,0,.55);
-  display: flex; align-items: flex-end; padding: 14px;
+  display: flex; align-items: flex-end; padding: 10px;
   opacity: 0; transition: opacity .25s;
+  pointer-events: none;
 }
 .piece-img:hover .piece-overlay { opacity: 1; }
-.piece-overlay-text { font-size: 12px; font-weight: 500; color: var(--white); line-height: 1.4; }
-.piece-desc { padding: 12px 14px; font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+.piece-img .piece-real-img:hover ~ .piece-overlay,
+.piece-img:hover .piece-overlay { opacity: 1; }
+.piece-overlay-text { font-size: 11px; font-weight: 500; color: var(--white); line-height: 1.4; }
+.piece-desc { padding: 8px 10px; font-size: 11px; color: var(--gray-600); line-height: 1.4; }
 
 .piece-result {
   background: var(--gray-50); border: 1px solid var(--gray-200);
@@ -1239,11 +1251,11 @@ body.edit-mode [data-editable]:focus {
 
 @media (max-width: 900px) {
   .video-grid { grid-template-columns: repeat(2, 1fr); }
-  .pieces-grid { grid-template-columns: 1fr 1fr; }
+  .pieces-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 560px) {
   .video-grid { grid-template-columns: repeat(2, 1fr); }
-  .pieces-grid { grid-template-columns: 1fr; }
+  .pieces-grid { grid-template-columns: repeat(2, 1fr); }
 }
 /* ===== LIGHTBOX ===== */
 #lightbox {
@@ -1611,6 +1623,27 @@ body.edit-mode [data-editable]:focus {
           </div>     </div>
           <p class="piece-desc">Cobertura y organización de evento presencial con más de 100 estudiantes y 20 docentes</p>
         </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-tw4" style="background:#0d6e6e">
+            <div class="piece-placeholder"><span>📣</span>Pieza 4<br>Tweetalig<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Pieza 4 · Tweetalig</span></div>
+          </div>
+          <p class="piece-desc">Contenido digital Tweetalig</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-tw5" style="background:#0d6e6e">
+            <div class="piece-placeholder"><span>🌐</span>Pieza 5<br>Tweetalig<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Pieza 5 · Tweetalig</span></div>
+          </div>
+          <p class="piece-desc">Contenido digital Tweetalig</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-tw6" style="background:#0d6e6e">
+            <div class="piece-placeholder"><span>🏆</span>Pieza 6<br>Tweetalig<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Pieza 6 · Tweetalig</span></div>
+          </div>
+          <p class="piece-desc">Contenido digital Tweetalig</p>
+        </div>
       </div>
       <div class="piece-result">
         <span class="result-highlight">📋 Rol:</span> Coordinadora Académica &nbsp;|&nbsp;
@@ -1743,22 +1776,7 @@ body.edit-mode [data-editable]:focus {
         </div>
       </div>
 
-      <div class="timeline-item" data-aos>
-        <div class="timeline-dot"></div>
-        <div class="timeline-content">
-          <div class="timeline-header">
-            <span class="timeline-company" data-editable>Seatrial S.A.S</span>
-            <span class="timeline-role" data-editable>Asesora de Ventas y Servicio al Cliente</span>
-            <span class="timeline-date">Sep 2019 – Ene 2021</span>
-          </div>
-          <p class="timeline-desc" data-editable>Elaboración de materiales promocionales y comunicación de marca en sector náutico de lujo. Atención y comunicación efectiva con ~40 clientes de alto valor.</p>
-          <div class="timeline-results">
-            <span class="result-tag">Náutico · Lujo</span>
-            <span class="result-tag">40 clientes alto valor</span>
-            <span class="result-tag">Comunicación de marca</span>
-          </div>
-        </div>
-      </div>
+
 
     </div>
   </div>
@@ -2153,11 +2171,24 @@ function loadPieceImages() {
       const key = k.replace('piece_', '');
       const el = document.querySelector('.piece-img-' + key);
       if (el) {
-        el.style.backgroundImage = 'url(' + v + ')';
-        el.style.backgroundSize = 'cover';
-        el.style.backgroundPosition = 'center';
+        // Ocultar placeholder
         const ph = el.querySelector('.piece-placeholder');
         if (ph) ph.style.display = 'none';
+        // Quitar imagen previa si existe
+        const prev = el.querySelector('.piece-real-img');
+        if (prev) prev.remove();
+        // Insertar <img> real antes del overlay para que el click funcione
+        const img = document.createElement('img');
+        img.src = v;
+        img.className = 'piece-real-img';
+        img.alt = key;
+        const overlay = el.querySelector('.piece-overlay');
+        el.insertBefore(img, overlay);
+        // Click abre lightbox
+        img.addEventListener('click', () => {
+          const caption = el.querySelector('.piece-overlay-text')?.textContent || '';
+          openLightbox(v, caption);
+        });
       }
     });
     // Foto de perfil
@@ -2172,9 +2203,7 @@ function loadPieceImages() {
       const iframes = document.querySelectorAll('.video-wrap iframe');
       if (iframes[idx]) iframes[idx].src = 'https://www.youtube.com/embed/' + ytId;
     });
-    // Re-attach lightbox clicks after images load
-    if (typeof attachPieceClicks === 'function') attachPieceClicks();
-  } catch(e) {}
+  } catch(e) { console.error('loadPieceImages:', e); }
 }
 
 function loadEdits() {
@@ -2262,23 +2291,6 @@ function closeLightbox() {
 document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
 lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
-
-// Adjuntar click a cada pieza gráfica
-function attachPieceClicks() {
-  document.querySelectorAll('.piece-img').forEach(el => {
-    el.style.cursor = 'zoom-in';
-    el.addEventListener('click', () => {
-      const bg = el.style.backgroundImage;
-      const caption = el.querySelector('.piece-overlay-text')?.textContent || '';
-      if (bg && bg !== 'none' && bg !== '') {
-        // Tiene imagen real cargada
-        const url = bg.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
-        openLightbox(url, caption);
-      }
-    });
-  });
-}
-attachPieceClicks();
 
 </script>
 </body>

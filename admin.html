@@ -394,6 +394,8 @@ document.querySelectorAll('.sidebar-item').forEach(item => {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     item.classList.add('active');
     document.getElementById('panel-' + item.dataset.panel).classList.add('active');
+    // Init text panel lazily when opened
+    if (item.dataset.panel === 'textos') initTextPanel();
   });
 });
 
@@ -470,6 +472,9 @@ const piecesConfig = {
     { key:'tw1', emoji:'🎓', name:'Apertura inscripciones', hint:'Tweetalig 2024-PI' },
     { key:'tw2', emoji:'📚', name:'Contenido social', hint:'Beneficios y exámenes incluidos' },
     { key:'tw3', emoji:'🎉', name:'Evento académico', hint:'Feria de idiomas / cobertura' },
+    { key:'tw4', emoji:'📣', name:'Pieza 4', hint:'Contenido Tweetalig' },
+    { key:'tw5', emoji:'🌐', name:'Pieza 5', hint:'Contenido Tweetalig' },
+    { key:'tw6', emoji:'🏆', name:'Pieza 6', hint:'Contenido Tweetalig' },
   ],
   retail: [
     { key:'ret1', emoji:'🍽️', name:'Caseritos CTG', hint:'Pieza domicilios / rutas de entrega' },
@@ -566,14 +571,19 @@ function exportBook() {
       Object.entries(pieces).forEach(([k,v])=>{
         const key = k.replace('piece_','');
         const el = document.querySelector('.piece-img-'+key);
-        if(el){
-          el.style.backgroundImage='url('+v+')';
-          el.style.backgroundSize='cover';
-          el.style.backgroundPosition='center';
-          // Ocultar placeholder cuando hay imagen real
-          const ph = el.querySelector('.piece-placeholder');
-          if(ph) ph.style.display='none';
-        }
+        if(!el) return;
+        const ph = el.querySelector('.piece-placeholder');
+        if(ph) ph.style.display='none';
+        const prev = el.querySelector('.piece-real-img');
+        if(prev) prev.remove();
+        const img = document.createElement('img');
+        img.src = v; img.className = 'piece-real-img'; img.alt = key;
+        const overlay = el.querySelector('.piece-overlay');
+        el.insertBefore(img, overlay);
+        img.addEventListener('click', ()=>{
+          const cap = el.querySelector('.piece-overlay-text')?.textContent||'';
+          if(typeof openLightbox==='function') openLightbox(v, cap);
+        });
       });
     }
     // 2. Foto de perfil
