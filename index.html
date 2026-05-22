@@ -3,26 +3,1205 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Book de Referencia — Daniela Andrea Racero Vélez, Comunicadora Social Estratégica e Institucional">
-<title>Daniela Racero Vélez · Comunicadora Social</title>
+<meta name="description" content="Book de Referencia — Daniela Vélez, Community Manager · Marketing Digital · Contenidos & Redes Sociales">
+<title>Daniela Vélez · Community Manager</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<style>
+/* ===== BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black: #0a0a0a;
+  --white: #ffffff;
+  --gray-50: #f9f9f7;
+  --gray-100: #f0ede8;
+  --gray-200: #e2ddd6;
+  --gray-400: #a09b93;
+  --gray-600: #6b6560;
+  --gray-800: #2e2b28;
+
+  --accent: #1a1a1a;
+  --accent2: #c9a96e;
+  --accent-muted: rgba(201,169,110,0.15);
+
+  --gastro: #e85d26;
+  --boutique: #8b5cf6;
+  --edu: #0d9488;
+  --salud: #2563eb;
+  --pub: #b91c1c;
+  --nautico: #0369a1;
+  --perfume: #9333ea;
+
+  --radius: 12px;
+  --radius-sm: 6px;
+  --radius-lg: 20px;
+
+  --font: 'Inter', -apple-system, sans-serif;
+  --serif: 'Playfair Display', Georgia, serif;
+
+  --nav-h: 64px;
+  --section-pad: 80px;
+  --container: 1200px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--black);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===== NAV ===== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--nav-h);
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gray-200);
+  transition: box-shadow .3s;
+}
+.nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,.08); }
+.nav-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: .12em;
+  color: var(--black);
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  align-items: center;
+}
+.nav-links a {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-600);
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--black); }
+.nav-cta {
+  background: var(--black) !important;
+  color: var(--white) !important;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 13px !important;
+}
+.nav-cta:hover { background: var(--gray-800) !important; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--black);
+  border-radius: 2px;
+  transition: .3s;
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  padding-top: var(--nav-h);
+  background: var(--gray-50);
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 50%, rgba(201,169,110,.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(10,10,10,.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  padding-top: 60px;
+  padding-bottom: 100px;
+}
+.hero-tag {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 20px;
+}
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(42px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--black);
+  margin-bottom: 16px;
+}
+.hero-name span {
+  font-style: italic;
+  color: var(--accent2);
+}
+.hero-role {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+.hero-sub {
+  font-size: 15px;
+  color: var(--gray-600);
+  margin-bottom: 28px;
+}
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+.badge {
+  display: inline-block;
+  padding: 6px 14px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gray-600);
+}
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .2s;
+  border: 2px solid transparent;
+}
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
+}
+.btn-primary:hover {
+  background: var(--gray-800);
+  transform: translateY(-1px);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--black);
+  border-color: var(--gray-200);
+}
+.btn-outline:hover {
+  border-color: var(--black);
+  transform: translateY(-1px);
+}
+.full-btn { width: 100%; text-align: center; display: block; }
+
+/* HERO CARD */
+.hero-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: 0 4px 40px rgba(0,0,0,.06);
+}
+.stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.stat-row:last-child { margin-bottom: 0; }
+.stat {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--gray-50);
+  border-radius: var(--radius);
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-lbl {
+  font-size: 12px;
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.hero-scroll span {
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gray-400), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: .4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  padding: var(--section-pad) 0;
+}
+.section-dark {
+  background: var(--black);
+  color: var(--white);
+}
+.section-soft {
+  background: var(--gray-50);
+}
+.section-header {
+  max-width: 640px;
+  margin-bottom: 60px;
+}
+.section-header.light h2,
+.section-header.light .section-tag { color: var(--white); }
+.section-header.light .section-sub { color: rgba(255,255,255,.6); }
+.section-tag {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 12px;
+  display: block;
+}
+.section-header h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--black);
+}
+.section-header.light h2 { color: var(--white); }
+.section-sub {
+  margin-top: 16px;
+  font-size: 16px;
+  color: var(--gray-600);
+}
+
+/* ===== PERFIL ===== */
+.perfil-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.lead {
+  font-size: 17px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  color: var(--black);
+}
+.perfil-text p {
+  color: var(--gray-600);
+  margin-bottom: 24px;
+  line-height: 1.75;
+}
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-800);
+}
+.icon {
+  font-size: 8px;
+  color: var(--accent2);
+  font-style: normal;
+}
+.perfil-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.info-card {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.info-card.accent {
+  background: var(--black);
+  border-color: var(--black);
+}
+.info-card-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 16px;
+}
+.info-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.info-card ul li {
+  font-size: 14px;
+  color: var(--gray-800);
+  padding-left: 16px;
+  position: relative;
+}
+.info-card ul li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--accent2);
+}
+.tools-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tool-tag {
+  padding: 4px 12px;
+  background: rgba(201,169,110,.2);
+  border: 1px solid rgba(201,169,110,.3);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent2);
+}
+
+/* ===== TIMELINE ===== */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255,255,255,.15);
+}
+.timeline-item {
+  position: relative;
+  padding-bottom: 48px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all .5s ease;
+}
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  position: absolute;
+  left: -37px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: var(--accent2);
+  border-radius: 50%;
+  border: 2px solid var(--black);
+  box-shadow: 0 0 0 3px rgba(201,169,110,.3);
+}
+.timeline-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+.timeline-company {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--white);
+}
+.timeline-role {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent2);
+  letter-spacing: .05em;
+}
+.timeline-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,.65);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.timeline-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.result-tag {
+  padding: 4px 12px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 100px;
+  font-size: 12px;
+  color: rgba(255,255,255,.8);
+}
+
+/* ===== PROJECTS ===== */
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+.filter-btn {
+  padding: 8px 18px;
+  border-radius: 100px;
+  border: 1.5px solid var(--gray-200);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all .2s;
+}
+.filter-btn:hover {
+  border-color: var(--black);
+  color: var(--black);
+}
+.filter-btn.active {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+.project-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all .25s;
+  display: flex;
+  flex-direction: column;
+}
+.project-card:hover {
+  box-shadow: 0 8px 40px rgba(0,0,0,.1);
+  transform: translateY(-3px);
+}
+.project-card.hidden { display: none; }
+.project-visual {
+  padding: 28px 28px 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+}
+.project-visual.gastro { background: linear-gradient(135deg, #fff5f0 0%, #ffe8dc 100%); }
+.project-visual.boutique { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); }
+.project-visual.perfume { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); }
+.project-visual.educacion { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); }
+.project-visual.salud { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); }
+.project-visual.gobierno { background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); }
+.project-visual.nautico { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); }
+
+.brand-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: var(--white);
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
+}
+.project-cat-badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 100px;
+}
+.gastro-badge { background: rgba(232,93,38,.12); color: var(--gastro); }
+.boutique-badge { background: rgba(139,92,246,.12); color: var(--boutique); }
+.perfume-badge { background: rgba(147,51,234,.12); color: var(--perfume); }
+.edu-badge { background: rgba(13,148,136,.12); color: var(--edu); }
+.salud-badge { background: rgba(37,99,235,.12); color: var(--salud); }
+.gobierno-badge { background: rgba(185,28,28,.12); color: var(--pub); }
+.nautico-badge { background: rgba(3,105,161,.12); color: var(--nautico); }
+
+.project-body {
+  padding: 20px 24px 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.project-body h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 6px;
+}
+.project-sub {
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+.project-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+.detail-row { display: flex; flex-direction: column; gap: 4px; }
+.detail-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+.detail-row p {
+  font-size: 13px;
+  color: var(--gray-800);
+  line-height: 1.55;
+}
+.channel-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.channel-tags span {
+  padding: 3px 10px;
+  background: var(--gray-100);
+  border-radius: 100px;
+  font-size: 11px;
+  color: var(--gray-600);
+}
+.project-deliverables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-100);
+}
+.deliverable {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gray-600);
+}
+
+/* ===== HERRAMIENTAS ===== */
+.tools-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 60px;
+}
+.tools-cat-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.tools-cat-icon { font-size: 28px; margin-bottom: 12px; }
+.tools-cat-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 14px;
+}
+.tools-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tools-pills span {
+  padding: 4px 12px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--gray-600);
+}
+.competencias h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 28px;
+  color: var(--black);
+}
+.comp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 40px;
+}
+.comp-item { display: flex; flex-direction: column; gap: 8px; }
+.comp-bar-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.comp-name { font-size: 14px; font-weight: 500; color: var(--gray-800); }
+.comp-pct { font-size: 13px; font-weight: 600; color: var(--accent2); }
+.comp-bar {
+  height: 4px;
+  background: var(--gray-200);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.comp-fill {
+  height: 100%;
+  background: var(--black);
+  border-radius: 100px;
+  width: 0;
+  transition: width 1s ease 0.3s;
+}
+
+/* ===== CONTACTO ===== */
+.contact-section { background: var(--black); }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: rgba(255,255,255,.8);
+  font-size: 14px;
+  transition: all .2s;
+}
+.contact-item:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(201,169,110,.4);
+  color: var(--white);
+}
+.contact-ico { font-size: 20px; }
+.contact-cta-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+.cta-heading {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 20px;
+}
+.cta-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.cta-list li {
+  font-size: 14px;
+  color: rgba(255,255,255,.75);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: #050505;
+  padding: 32px 0;
+  text-align: center;
+}
+.footer p {
+  font-size: 13px;
+  color: rgba(255,255,255,.35);
+  margin-bottom: 4px;
+}
+.footer-sub { font-size: 11px !important; }
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px) {
+  :root { --section-pad: 60px; }
+
+  .hero .container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-top: 40px;
+    padding-bottom: 80px;
+  }
+  .hero-name { font-size: 40px; }
+  .stat-row { gap: 12px; }
+  .stat-num { font-size: 28px; }
+
+  .perfil-grid { grid-template-columns: 1fr; gap: 40px; }
+
+  .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+  .comp-grid { grid-template-columns: 1fr; }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: var(--nav-h);
+    left: 0; right: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 20px 24px;
+    gap: 16px;
+  }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: flex; }
+  .nav { position: fixed; }
+
+  .projects-grid { grid-template-columns: 1fr; }
+  .tools-categories { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .hero-name { font-size: 32px; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .stat-num { font-size: 22px; }
+  .tools-categories { grid-template-columns: 1fr; }
+  .filter-tabs { gap: 6px; }
+  .filter-btn { padding: 7px 14px; font-size: 12px; }
+  .hero-actions { flex-direction: column; }
+  .btn { text-align: center; }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-content { animation: fadeUp .7s ease both; }
+.hero-visual { animation: fadeUp .7s .15s ease both; }
+
+/* ===== AUDIOVISUAL SECTION ===== */
+.av-section { background: var(--gray-50); }
+.av-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.av-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: all .25s;
+}
+.av-card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,.08);
+  transform: translateY(-2px);
+}
+.av-big {
+  grid-row: 1 / 3;
+  background: var(--black);
+  border-color: var(--black);
+}
+.av-big h3 { color: var(--accent2) !important; }
+.av-big p { color: rgba(255,255,255,.75) !important; }
+.av-big .av-tags span {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.15);
+  color: rgba(255,255,255,.8);
+}
+.av-icon { font-size: 32px; margin-bottom: 14px; }
+.av-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 10px;
+}
+.av-card p {
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+.av-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.av-tags span {
+  padding: 4px 10px;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 100px;
+  font-size: 11px;
+  color: var(--gray-600);
+}
+.av-clients {
+  border-top: 1px solid var(--gray-200);
+  padding-top: 28px;
+}
+.av-clients-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 14px;
+}
+.av-clients-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.av-client {
+  padding: 7px 16px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-800);
+}
+
+/* retail badge */
+.retail-badge { background: rgba(139,92,246,.12); color: #7c3aed; }
+
+/* ===== ADMIN PANEL ===== */
+#adminBar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+}
+#adminPanel {
+  background: var(--black);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  width: 320px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.4);
+}
+.adm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.adm-logo { font-size: 14px; font-weight: 600; color: var(--white); }
+.adm-close {
+  background: none; border: none;
+  color: rgba(255,255,255,.5); font-size: 12px;
+  cursor: pointer; padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: .2s;
+}
+.adm-close:hover { color: var(--white); background: rgba(255,255,255,.08); }
+.adm-hint {
+  font-size: 12px;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.adm-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.adm-btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,.15);
+  font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: .2s;
+  background: rgba(255,255,255,.06);
+  color: var(--white);
+}
+.adm-btn:hover { background: rgba(255,255,255,.12); }
+.adm-btn-save { border-color: var(--accent2); color: var(--accent2); }
+.adm-btn-export { border-color: rgba(255,255,255,.3); }
+.adm-status {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--accent2);
+  min-height: 16px;
+}
+
+/* editable highlight */
+body.edit-mode [data-editable] {
+  outline: 2px dashed rgba(201,169,110,.5);
+  outline-offset: 2px;
+  border-radius: 3px;
+  cursor: text;
+}
+body.edit-mode [data-editable]:hover {
+  outline-color: var(--accent2);
+  background: rgba(201,169,110,.05);
+}
+body.edit-mode [data-editable]:focus {
+  outline: 2px solid var(--accent2);
+  background: rgba(201,169,110,.08);
+}
+
+/* LOGIN MODAL */
+#loginOverlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0,0,0,.7);
+  display: flex; align-items: center; justify-content: center;
+}
+#loginBox {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+  width: 320px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.login-title {
+  font-size: 16px; font-weight: 600;
+  color: var(--black); margin-bottom: 4px;
+}
+#loginBox input {
+  padding: 10px 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-size: 14px; font-family: var(--font);
+  outline: none;
+}
+#loginBox input:focus { border-color: var(--black); }
+#loginBtn {
+  padding: 11px;
+  background: var(--black); color: var(--white);
+  border: none; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: .2s;
+}
+#loginBtn:hover { background: var(--gray-800); }
+.login-error { font-size: 12px; color: #dc2626; min-height: 16px; }
+
+/* footer admin link */
+.footer-admin { margin-top: 8px; }
+.footer-admin a {
+  font-size: 11px; color: rgba(255,255,255,.15);
+  text-decoration: none; transition: .2s;
+}
+.footer-admin a:hover { color: rgba(255,255,255,.4); }
+
+/* AV mobile */
+@media (max-width: 900px) {
+  .av-grid { grid-template-columns: 1fr 1fr; }
+  .av-big { grid-row: auto; }
+}
+@media (max-width: 560px) {
+  .av-grid { grid-template-columns: 1fr; }
+  #adminPanel { width: calc(100vw - 48px); }
+}
+
+.timeline-date {
+  font-size: 11px;
+  color: rgba(255,255,255,.35);
+  font-weight: 400;
+  letter-spacing: .03em;
+}
+
+/* ===== APRENDIZAJE CONTINUO ===== */
+.learn-section { background: var(--white); }
+.learn-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.learn-card {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: all .25s;
+}
+.learn-card:hover {
+  box-shadow: 0 6px 28px rgba(0,0,0,.07);
+  transform: translateY(-2px);
+}
+.learn-big {
+  grid-row: 1 / 3;
+  background: var(--black);
+  border-color: var(--black);
+}
+.learn-big h3 { color: var(--accent2) !important; }
+.learn-big p { color: rgba(255,255,255,.75) !important; }
+.learn-emoji { font-size: 28px; display: block; margin-bottom: 14px; }
+.learn-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 10px;
+}
+.learn-card p {
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.65;
+}
+
+.learn-timeline {
+  border-top: 1px solid var(--gray-200);
+  padding-top: 28px;
+}
+.learn-tl-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 16px;
+}
+.learn-tl-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.learn-tl-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--black);
+  border-radius: 100px;
+}
+.tl-dot {
+  width: 6px; height: 6px;
+  background: var(--accent2);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tl-tool {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--white);
+}
+
+@media (max-width: 900px) {
+  .learn-grid { grid-template-columns: 1fr 1fr; }
+  .learn-big { grid-row: auto; }
+}
+@media (max-width: 560px) {
+  .learn-grid { grid-template-columns: 1fr; }
+}
+
+</style>
 </head>
 <body>
+
+<!-- ADMIN PANEL -->
+<div id="adminBar" style="display:none">
+  <div id="adminPanel">
+    <div class="adm-header">
+      <span class="adm-logo">✏️ Editor de contenido</span>
+      <button id="adminClose" class="adm-close">✕ Cerrar</button>
+    </div>
+    <p class="adm-hint">Haz clic en cualquier texto resaltado para editarlo. Los cambios se guardan en el navegador.</p>
+    <div class="adm-actions">
+      <button id="toggleEdit" class="adm-btn adm-btn-on">🖊 Edición activa</button>
+      <button id="saveAll" class="adm-btn adm-btn-save">💾 Guardar</button>
+      <button id="exportHtml" class="adm-btn adm-btn-export">⬇ Exportar HTML</button>
+    </div>
+    <div id="adm-status" class="adm-status"></div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div id="loginOverlay" style="display:none">
+  <div id="loginBox">
+    <p class="login-title">Acceso administrador</p>
+    <input type="text" id="loginUser" placeholder="Usuario" autocomplete="off">
+    <input type="password" id="loginPass" placeholder="Contraseña">
+    <button id="loginBtn">Entrar</button>
+    <p id="loginError" class="login-error"></p>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <span class="nav-logo">D R V</span>
+    <span class="nav-logo">D V</span>
     <button class="nav-toggle" id="navToggle" aria-label="Menú">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#perfil">Perfil</a></li>
+      <li><a href="#audiovisual">Producción AV</a></li>
       <li><a href="#experiencia">Experiencia</a></li>
       <li><a href="#proyectos">Proyectos</a></li>
-      <li><a href="#herramientas">Herramientas</a></li>
       <li><a href="#contacto" class="nav-cta">Contactar</a></li>
     </ul>
   </div>
@@ -33,29 +1212,29 @@
   <div class="hero-bg"></div>
   <div class="container">
     <div class="hero-content">
-      <p class="hero-tag">Book de Referencia · 2025</p>
-      <h1 class="hero-name">Daniela Andrea<br><span>Racero Vélez</span></h1>
-      <p class="hero-role">Comunicadora Social</p>
-      <p class="hero-sub">Énf. Comunicación Estratégica e Institucional</p>
+      <p class="hero-tag" data-editable>Book de Referencia · 2025</p>
+      <h1 class="hero-name"><span>Daniela Vélez</span></h1>
+      <p class="hero-role" data-editable>Community Manager · Marketing Digital · Contenidos & Redes Sociales</p>
+      <p class="hero-sub" data-editable>Comunicadora Social · Producción Audiovisual con IA · Cartagena</p>
       <div class="hero-badges">
-        <span class="badge">+4 años de experiencia</span>
-        <span class="badge">Sector público · privado · académico</span>
-        <span class="badge">Cartagena de Indias</span>
+        <span class="badge" data-editable>+4 años de experiencia</span>
+        <span class="badge" data-editable>Disponibilidad inmediata</span>
+        <span class="badge" data-editable>Cartagena de Indias</span>
       </div>
       <div class="hero-actions">
         <a href="#proyectos" class="btn btn-primary">Ver proyectos</a>
-        <a href="#contacto" class="btn btn-outline">Contactar</a>
+        <a href="mailto:vdanielavelez@gmail.com" class="btn btn-outline">Contactar</a>
       </div>
     </div>
     <div class="hero-visual">
       <div class="hero-card">
         <div class="stat-row">
-          <div class="stat"><span class="stat-num">+500</span><span class="stat-lbl">Clientes gestionados</span></div>
-          <div class="stat"><span class="stat-num">31%</span><span class="stat-lbl">Crecimiento en ventas</span></div>
+          <div class="stat"><span class="stat-num" data-editable>+500</span><span class="stat-lbl" data-editable>Clientes gestionados</span></div>
+          <div class="stat"><span class="stat-num" data-editable>31%</span><span class="stat-lbl" data-editable>Incremento en ventas</span></div>
         </div>
         <div class="stat-row">
-          <div class="stat"><span class="stat-num">1.000</span><span class="stat-lbl">Estudiantes coordinados</span></div>
-          <div class="stat"><span class="stat-num">100%</span><span class="stat-lbl">Metas cumplidas</span></div>
+          <div class="stat"><span class="stat-num" data-editable>+20%</span><span class="stat-lbl" data-editable>Crecimiento comunidades</span></div>
+          <div class="stat"><span class="stat-num" data-editable>1.000</span><span class="stat-lbl" data-editable>Estudiantes gestionados</span></div>
         </div>
       </div>
     </div>
@@ -71,32 +1250,39 @@
   <div class="container">
     <div class="section-header">
       <p class="section-tag">01 · Perfil</p>
-      <h2>Comunicación que construye,<br>conecta y posiciona</h2>
+      <h2 data-editable>Contenido que conecta.<br>Estrategia que convierte.</h2>
     </div>
     <div class="perfil-grid">
       <div class="perfil-text">
-        <p class="lead">Comunicadora Social egresada de la <strong>Universidad Tecnológica de Bolívar</strong>, con más de cuatro años de experiencia en comunicación institucional, estratégica y corporativa en sectores públicos, académicos y empresariales.</p>
-        <p>He trabajado en el diseño e implementación de estrategias de comunicación, redacción de contenidos institucionales, coordinación de eventos y gestión de canales digitales. Mi enfoque se centra en construir mensajes claros, coherentes y alineados con los objetivos organizacionales, fortaleciendo la comunicación interna y externa.</p>
+        <p class="lead" data-editable>Comunicadora Social con más de 4 años de experiencia en <strong>marketing digital, gestión de redes sociales, creación de contenido audiovisual, estrategias BTL y organización de eventos de lanzamiento.</strong></p>
+        <p data-editable>Como consultora independiente logré un crecimiento del 20% en comunidades digitales en menos de 6 meses para clientes del sector gastronómico en Cartagena. Manejo de KPIs, Excel, herramientas de IA para producción de contenido y relaciones públicas. Contrato indefinido y disponibilidad inmediata.</p>
         <div class="skills-list">
-          <div class="skill-item"><i class="icon">◆</i> Comunicación institucional y corporativa</div>
-          <div class="skill-item"><i class="icon">◆</i> Estrategia de contenidos digitales</div>
-          <div class="skill-item"><i class="icon">◆</i> Gestión de comunidades y redes sociales</div>
-          <div class="skill-item"><i class="icon">◆</i> Coordinación de eventos y relaciones públicas</div>
-          <div class="skill-item"><i class="icon">◆</i> Redacción periodística e institucional</div>
-          <div class="skill-item"><i class="icon">◆</i> Consultoría de comunicación para marcas</div>
+          <div class="skill-item"><i class="icon">◆</i> <span data-editable>Producción de video corto, reels y contenido social</span></div>
+          <div class="skill-item"><i class="icon">◆</i> <span data-editable>Gestión de comunidades y redes sociales (CM)</span></div>
+          <div class="skill-item"><i class="icon">◆</i> <span data-editable>Estrategias BTL y eventos de lanzamiento</span></div>
+          <div class="skill-item"><i class="icon">◆</i> <span data-editable>Indicadores de gestión, KPIs y reportes</span></div>
+          <div class="skill-item"><i class="icon">◆</i> <span data-editable>Relaciones públicas y comunicación institucional</span></div>
+          <div class="skill-item"><i class="icon">◆</i> <span data-editable>Producción con IA: Midjourney, Canva IA, CapCut IA</span></div>
         </div>
       </div>
       <div class="perfil-cards">
         <div class="info-card">
-          <p class="info-card-title">Formación académica</p>
+          <p class="info-card-title">Formación</p>
           <ul>
-            <li><strong>Comunicación Social</strong> — UTB Cartagena</li>
-            <li><strong>Prog. Universitario Avanzado</strong> — UNIR / Harvard ManageMentor</li>
-            <li><strong>Diplomado en Marketing Digital</strong> — Politécnico</li>
+            <li data-editable><strong>Comunicación Social</strong> — UTB Cartagena · 2015–2020</li>
+            <li data-editable><strong>Prog. Universitario Avanzado en Marketing y Comunicación</strong> — UNIR / Harvard ManageMentor · 2023</li>
+            <li data-editable><strong>Diplomado en Estrategias de Marketing Digital</strong> — Politécnico Superior de Colombia · 2023</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <p class="info-card-title">Idiomas</p>
+          <ul>
+            <li><strong>Español</strong> — Nativo</li>
+            <li><strong>Inglés</strong> — Intermedio</li>
           </ul>
         </div>
         <div class="info-card accent">
-          <p class="info-card-title">Herramientas IA & Diseño</p>
+          <p class="info-card-title">Herramientas IA & Producción</p>
           <div class="tools-grid">
             <span class="tool-tag">ChatGPT</span>
             <span class="tool-tag">Gemini</span>
@@ -111,11 +1297,62 @@
   </div>
 </section>
 
+<!-- PRODUCCION AUDIOVISUAL -->
+<section class="section av-section" id="audiovisual">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-tag">02 · Producción Audiovisual</p>
+      <h2 data-editable>Contenido que mueve,<br>engancha y convierte</h2>
+      <p class="section-sub" data-editable>Producción de reels, videos cortos, piezas gráficas y campañas digitales con narrativa estratégica y herramientas de IA creativa.</p>
+    </div>
+    <div class="av-grid">
+      <div class="av-card av-big">
+        <div class="av-icon">🎬</div>
+        <h3 data-editable>Reels & Video Corto</h3>
+        <p data-editable>Producción completa de reels para Instagram y TikTok: guion, grabación, edición y publicación. Contenido diseñado para maximizar alcance orgánico, engagement y conversión. Edición con CapCut IA y uso de tendencias de formato corto.</p>
+        <div class="av-tags">
+          <span>Instagram Reels</span><span>TikTok</span><span>CapCut IA</span><span>Guion creativo</span><span>Tendencias</span>
+        </div>
+      </div>
+      <div class="av-card">
+        <div class="av-icon">🎙️</div>
+        <h3 data-editable>Cobertura de Eventos</h3>
+        <p data-editable>Cobertura digital y audiovisual en vivo de eventos de lanzamiento, ferias, congresos y ruedas de prensa. Experiencia en eventos institucionales y del sector salud.</p>
+        <div class="av-tags"><span>Eventos</span><span>Lanzamientos</span><span>Ruedas de prensa</span></div>
+      </div>
+      <div class="av-card">
+        <div class="av-icon">🤖</div>
+        <h3 data-editable>Producción con IA</h3>
+        <p data-editable>Generación de imágenes con Midjourney y Adobe Firefly, edición automatizada con CapCut IA, subtítulos y optimización de contenido con ChatGPT y Gemini.</p>
+        <div class="av-tags"><span>Midjourney</span><span>Adobe Firefly</span><span>CapCut IA</span></div>
+      </div>
+      <div class="av-card">
+        <div class="av-icon">📸</div>
+        <h3 data-editable>Piezas Gráficas & Copies</h3>
+        <p data-editable>Diseño de piezas para campañas digitales, identidad visual de marca, BTL y material institucional. Copywriting estratégico para Instagram, Facebook y WhatsApp Business.</p>
+        <div class="av-tags"><span>Canva</span><span>Copywriting</span><span>BTL</span><span>WhatsApp Business</span></div>
+      </div>
+    </div>
+    <div class="av-clients">
+      <p class="av-clients-label">Producción audiovisual para:</p>
+      <div class="av-clients-row">
+        <span class="av-client">Caseritos CTG</span>
+        <span class="av-client">Boutique Grazia</span>
+        <span class="av-client">Tweetalig</span>
+        <span class="av-client">Gobernación de Bolívar</span>
+        <span class="av-client">CCTO</span>
+        <span class="av-client">Perfumería 23</span>
+        <span class="av-client">Laboratorios Pasteur</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- EXPERIENCIA -->
 <section class="section section-dark" id="experiencia">
   <div class="container">
     <div class="section-header light">
-      <p class="section-tag">02 · Experiencia</p>
+      <p class="section-tag">03 · Experiencia</p>
       <h2>Trayectoria profesional</h2>
     </div>
     <div class="timeline">
@@ -124,14 +1361,16 @@
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <div class="timeline-header">
-            <span class="timeline-company">Laboratorios Pasteur</span>
-            <span class="timeline-role">Ejecutiva Comercial</span>
+            <span class="timeline-company" data-editable>Laboratorios Pasteur</span>
+            <span class="timeline-role" data-editable>Ejecutiva Comercial</span>
+            <span class="timeline-date">Ene 2025 – Ene 2026</span>
           </div>
-          <p class="timeline-desc">Gestión de comunicación corporativa en el sector salud. Responsable de más de 500 clientes activos con un crecimiento documentado del 31% en ventas a través de estrategias de comunicación segmentada y mensajes institucionales efectivos.</p>
+          <p class="timeline-desc" data-editable>Comunicación digital con más de 500 clientes vía WhatsApp Business y canales digitales con mensajes adaptados a cada perfil. Participación en eventos de lanzamiento institucional, congresos y ferias del sector salud. Cumplimiento y reporte de KPIs al equipo directivo con manejo de Excel.</p>
           <div class="timeline-results">
             <span class="result-tag">+31% ventas</span>
             <span class="result-tag">+500 clientes</span>
-            <span class="result-tag">Sector salud</span>
+            <span class="result-tag">WhatsApp Business</span>
+            <span class="result-tag">KPIs & Excel</span>
           </div>
         </div>
       </div>
@@ -140,13 +1379,15 @@
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <div class="timeline-header">
-            <span class="timeline-company">Freelance</span>
-            <span class="timeline-role">Community Manager</span>
+            <span class="timeline-company" data-editable>Freelancer</span>
+            <span class="timeline-role" data-editable>Community Manager · Consultora de Comunicaciones</span>
+            <span class="timeline-date">Feb 2024 – Actualidad</span>
           </div>
-          <p class="timeline-desc">Gestión de comunidades digitales para marcas del sector gastronómico y boutique. Creación de estrategias de contenido que generaron un crecimiento del 20% en comunidades activas. Producción de piezas gráficas, reels y copywriting orientado a conversión.</p>
+          <p class="timeline-desc" data-editable>Desarrollo de estrategias de marketing digital para clientes del sector gastronómico y comercial en Cartagena. Creación de contenido digital (fotos, videos cortos, copies) para Instagram, Facebook y WhatsApp Business. Planeación editorial, publicación, atención a la comunidad y gestión de reputación. Análisis y reporte de métricas: alcance, engagement, seguidores y conversión.</p>
           <div class="timeline-results">
-            <span class="result-tag">+20% crecimiento comunidades</span>
-            <span class="result-tag">Gastronómico · Moda</span>
+            <span class="result-tag">+20% comunidades en 6 meses</span>
+            <span class="result-tag">Reels & Video</span>
+            <span class="result-tag">Métricas & reportes</span>
           </div>
         </div>
       </div>
@@ -155,14 +1396,16 @@
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <div class="timeline-header">
-            <span class="timeline-company">Gobernación de Bolívar</span>
-            <span class="timeline-role">Analista de Comunicaciones</span>
+            <span class="timeline-company" data-editable>Secretaría del Interior – Gobernación de Bolívar</span>
+            <span class="timeline-role" data-editable>Analista de Comunicaciones</span>
+            <span class="timeline-date">Sep – Dic 2023</span>
           </div>
-          <p class="timeline-desc">Redacción de comunicados oficiales, gestión de contenidos web y redes sociales institucionales. Coordinación logística y comunicacional de eventos gubernamentales. Apoyo en campañas institucionales que fortalecieron la difusión y la comunicación con la ciudadanía.</p>
+          <p class="timeline-desc" data-editable>Gestión de canales digitales institucionales y publicación de contenidos oficiales. Organización y cobertura digital de eventos gubernamentales y ruedas de prensa. Relaciones públicas con medios, comunidades y entidades aliadas. Monitoreo de medios y análisis de impacto comunicacional. Estrategias BTL para campañas de alto impacto en Cartagena.</p>
           <div class="timeline-results">
             <span class="result-tag">Sector público</span>
-            <span class="result-tag">Comunicación ciudadana</span>
-            <span class="result-tag">Eventos institucionales</span>
+            <span class="result-tag">Relaciones públicas</span>
+            <span class="result-tag">BTL</span>
+            <span class="result-tag">Cobertura digital</span>
           </div>
         </div>
       </div>
@@ -171,14 +1414,15 @@
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <div class="timeline-header">
-            <span class="timeline-company">Centro de Idiomas Tweetalig</span>
-            <span class="timeline-role">Coordinadora Académica</span>
+            <span class="timeline-company" data-editable>Centro de Idiomas Tweetalig</span>
+            <span class="timeline-role" data-editable>Coordinadora Académica</span>
+            <span class="timeline-date">Sep 2021 – Dic 2023</span>
           </div>
-          <p class="timeline-desc">Coordinación de más de 1.000 estudiantes y un equipo de 20 docentes. Gestión de comunicación interna, coordinación de eventos académicos y actualización de contenidos institucionales que mejoraron el flujo de información y el trabajo en equipo.</p>
+          <p class="timeline-desc" data-editable>Gestión de comunicación digital institucional para más de 1.000 estudiantes activos. Organización y difusión digital de ~6 eventos académicos anuales: ferias y lanzamientos. Estrategias BTL para captación de nuevos estudiantes y posicionamiento de la institución.</p>
           <div class="timeline-results">
             <span class="result-tag">1.000 estudiantes</span>
-            <span class="result-tag">20 docentes</span>
-            <span class="result-tag">Sector académico</span>
+            <span class="result-tag">6 eventos/año</span>
+            <span class="result-tag">BTL & captación</span>
           </div>
         </div>
       </div>
@@ -187,13 +1431,32 @@
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <div class="timeline-header">
-            <span class="timeline-company">CCTO · Seatrial</span>
-            <span class="timeline-role">Comunicaciones Corporativas</span>
+            <span class="timeline-company" data-editable>Cartagena Container Terminal Operator (CCTO)</span>
+            <span class="timeline-role" data-editable>Analista de Comunicaciones</span>
+            <span class="timeline-date">Ene – Jul 2021</span>
           </div>
-          <p class="timeline-desc">Comunicación estratégica en el sector náutico de lujo. Cumplimiento del 100% de metas establecidas. Gestión de mensajes de marca dirigidos a audiencias de alto perfil en el mercado náutico.</p>
+          <p class="timeline-desc" data-editable>Creación de contenidos para redes sociales, boletines internos y canales digitales corporativos. Implementación de estrategias de comunicación interna y externa en entorno corporativo portuario.</p>
           <div class="timeline-results">
-            <span class="result-tag">100% metas</span>
-            <span class="result-tag">Sector náutico · Lujo</span>
+            <span class="result-tag">Corporativo</span>
+            <span class="result-tag">Comunicación interna</span>
+            <span class="result-tag">Sector portuario</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item" data-aos>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <span class="timeline-company" data-editable>Seatrial S.A.S</span>
+            <span class="timeline-role" data-editable>Asesora de Ventas y Servicio al Cliente</span>
+            <span class="timeline-date">Sep 2019 – Ene 2021</span>
+          </div>
+          <p class="timeline-desc" data-editable>Elaboración de materiales promocionales y comunicación de marca en sector náutico de lujo. Atención y comunicación efectiva con ~40 clientes de alto valor.</p>
+          <div class="timeline-results">
+            <span class="result-tag">Náutico · Lujo</span>
+            <span class="result-tag">40 clientes alto valor</span>
+            <span class="result-tag">Comunicación de marca</span>
           </div>
         </div>
       </div>
@@ -206,263 +1469,147 @@
 <section class="section" id="proyectos">
   <div class="container">
     <div class="section-header">
-      <p class="section-tag">03 · Proyectos</p>
+      <p class="section-tag">04 · Proyectos</p>
       <h2>Casos y resultados</h2>
     </div>
-
-    <!-- FILTER TABS -->
     <div class="filter-tabs">
       <button class="filter-btn active" data-filter="all">Todos</button>
       <button class="filter-btn" data-filter="gastronomia">Gastronomía</button>
-      <button class="filter-btn" data-filter="boutique">Boutique</button>
+      <button class="filter-btn" data-filter="retail">Retail</button>
       <button class="filter-btn" data-filter="educacion">Educación</button>
       <button class="filter-btn" data-filter="salud">Salud</button>
       <button class="filter-btn" data-filter="publico">Sector Público</button>
     </div>
-
     <div class="projects-grid" id="projectsGrid">
 
-      <!-- CASERITOS -->
       <div class="project-card" data-cat="gastronomia">
         <div class="project-visual gastro">
-          <div class="project-icon-area">
-            <div class="brand-circle gastro-bg">🍽️</div>
-          </div>
+          <div class="project-icon-area"><div class="brand-circle">🍽️</div></div>
           <span class="project-cat-badge gastro-badge">Gastronomía · Dark Kitchen</span>
         </div>
         <div class="project-body">
-          <h3>Caseritos CTG</h3>
-          <p class="project-sub">Estrategia de contenido para dark kitchen de comida gourmet casera en Cartagena</p>
+          <h3 data-editable>Caseritos CTG</h3>
+          <p class="project-sub" data-editable>Producción audiovisual y estrategia de contenido para dark kitchen de comida gourmet casera en Cartagena</p>
           <div class="project-details">
-            <div class="detail-row">
-              <span class="detail-label">Qué hice</span>
-              <p>Diseño de identidad comunicacional para redes sociales, creación de piezas gráficas para Instagram, copywriting orientado a domicilios y publicaciones de rutas de entrega.</p>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Canales</span>
-              <div class="channel-tags">
-                <span>Instagram</span><span>Facebook</span><span>WhatsApp</span>
-              </div>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Resultado</span>
-              <p>Posicionamiento de marca en Cartagena con mensajería clara de zonas de entrega y propuesta de valor diferenciadora.</p>
-            </div>
+            <div class="detail-row"><span class="detail-label">Producción AV</span>
+              <p data-editable>Reels para Instagram con contenido de comida, rutas de entrega y propuesta de valor. Edición con CapCut IA, piezas gráficas en Canva y copywriting orientado a domicilios.</p></div>
+            <div class="detail-row"><span class="detail-label">Canales</span>
+              <div class="channel-tags"><span>Instagram</span><span>Facebook</span><span>WhatsApp Business</span></div></div>
+            <div class="detail-row"><span class="detail-label">Resultado</span>
+              <p data-editable>Posicionamiento de marca en Cartagena con identidad visual clara y contenido audiovisual que aumentó la visibilidad orgánica.</p></div>
           </div>
           <div class="project-deliverables">
-            <span class="deliverable">📸 Piezas gráficas</span>
-            <span class="deliverable">✍️ Copywriting</span>
-            <span class="deliverable">🗺️ Estrategia de rutas</span>
+            <span class="deliverable">🎬 Reels</span><span class="deliverable">📸 Piezas gráficas</span><span class="deliverable">✍️ Copywriting</span>
           </div>
         </div>
       </div>
 
-      <!-- BOUTIQUE GRAZIA -->
-      <div class="project-card" data-cat="boutique">
+      <div class="project-card" data-cat="retail">
         <div class="project-visual boutique">
-          <div class="project-icon-area">
-            <div class="brand-circle boutique-bg">👗</div>
-          </div>
-          <span class="project-cat-badge boutique-badge">Moda · Boutique</span>
+          <div class="project-icon-area"><div class="brand-circle">👗</div></div>
+          <span class="project-cat-badge retail-badge">Retail · Moda</span>
         </div>
         <div class="project-body">
-          <h3>Boutique Grazia</h3>
-          <p class="project-sub">Consultoría de comunicación y estrategia de contenido para boutique de moda femenina</p>
+          <h3 data-editable>Boutique Grazia</h3>
+          <p class="project-sub" data-editable>Producción audiovisual y estrategia CM para boutique de moda femenina</p>
           <div class="project-details">
-            <div class="detail-row">
-              <span class="detail-label">Qué hice</span>
-              <p>Diseño de estrategia de comunicación para marca, creación de contenidos digitales con identidad visual coherente, acompañamiento en posicionamiento de marca y gestión de redes sociales.</p>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Canales</span>
-              <div class="channel-tags">
-                <span>Instagram</span><span>TikTok</span><span>Facebook</span>
-              </div>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Resultado</span>
-              <p>Mejora en coherencia de marca y optimización de la interacción con audiencias objetivo en el sector moda.</p>
-            </div>
+            <div class="detail-row"><span class="detail-label">Producción AV</span>
+              <p data-editable>Reels de moda, lookbooks en video y piezas gráficas para catálogo digital. Dirección de contenido visual con identidad coherente de marca y estética aspiracional.</p></div>
+            <div class="detail-row"><span class="detail-label">Canales</span>
+              <div class="channel-tags"><span>Instagram</span><span>TikTok</span><span>Facebook</span></div></div>
+            <div class="detail-row"><span class="detail-label">Resultado</span>
+              <p data-editable>Mejora en coherencia de marca y aumento de interacción con la comunidad.</p></div>
           </div>
           <div class="project-deliverables">
-            <span class="deliverable">🎨 Identidad digital</span>
-            <span class="deliverable">📱 Contenido social</span>
-            <span class="deliverable">📊 Estrategia CM</span>
+            <span class="deliverable">🎬 Reels de moda</span><span class="deliverable">🎨 Identidad visual</span><span class="deliverable">📊 Estrategia CM</span>
           </div>
         </div>
       </div>
 
-      <!-- PERFUMERIA 23 -->
-      <div class="project-card" data-cat="boutique">
+      <div class="project-card" data-cat="retail">
         <div class="project-visual perfume">
-          <div class="project-icon-area">
-            <div class="brand-circle perfume-bg">✨</div>
-          </div>
-          <span class="project-cat-badge perfume-badge">Retail · Perfumería</span>
+          <div class="project-icon-area"><div class="brand-circle">✨</div></div>
+          <span class="project-cat-badge retail-badge">Retail · Perfumería</span>
         </div>
         <div class="project-body">
-          <h3>Perfumería 23</h3>
-          <p class="project-sub">Estrategia digital para tienda de perfumería de alto impacto en Cartagena de Indias</p>
+          <h3 data-editable>Perfumería 23</h3>
+          <p class="project-sub" data-editable>Estrategia digital y producción de contenido para tienda de perfumería premium en Cartagena</p>
           <div class="project-details">
-            <div class="detail-row">
-              <span class="detail-label">Qué hice</span>
-              <p>Diseño de propuesta de comunicación, creación de piezas de marca, estrategia de contenidos y mensajería comercial para canal digital y punto de venta.</p>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Canales</span>
-              <div class="channel-tags">
-                <span>Instagram</span><span>Web</span><span>Mailing</span>
-              </div>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Resultado</span>
-              <p>Identidad de marca sólida con presencia digital coherente y mensajes comerciales alineados con el sector lujo.</p>
-            </div>
+            <div class="detail-row"><span class="detail-label">Producción AV</span>
+              <p data-editable>Piezas audiovisuales y gráficas para posicionamiento digital. Mensajería comercial alineada con el sector lujo.</p></div>
+            <div class="detail-row"><span class="detail-label">Canales</span>
+              <div class="channel-tags"><span>Instagram</span><span>Web</span><span>Mailing</span></div></div>
+            <div class="detail-row"><span class="detail-label">Resultado</span>
+              <p data-editable>Identidad de marca sólida con presencia digital coherente.</p></div>
           </div>
           <div class="project-deliverables">
-            <span class="deliverable">🖼️ Branding</span>
-            <span class="deliverable">📝 Propuesta comercial</span>
-            <span class="deliverable">💎 Posicionamiento</span>
+            <span class="deliverable">🎬 Contenido visual</span><span class="deliverable">🖼️ Branding</span><span class="deliverable">💎 Posicionamiento</span>
           </div>
         </div>
       </div>
 
-      <!-- TWEETALIG -->
       <div class="project-card" data-cat="educacion">
         <div class="project-visual educacion">
-          <div class="project-icon-area">
-            <div class="brand-circle educacion-bg">🎓</div>
-          </div>
+          <div class="project-icon-area"><div class="brand-circle">🎓</div></div>
           <span class="project-cat-badge edu-badge">Educación · Idiomas</span>
         </div>
         <div class="project-body">
-          <h3>Centro de Idiomas Tweetalig</h3>
-          <p class="project-sub">Comunicación interna, académica y digital para centro de inglés con más de 1.000 estudiantes</p>
+          <h3 data-editable>Centro de Idiomas Tweetalig</h3>
+          <p class="project-sub" data-editable>Producción audiovisual, BTL y comunicación digital para centro de inglés con más de 1.000 estudiantes</p>
           <div class="project-details">
-            <div class="detail-row">
-              <span class="detail-label">Qué hice</span>
-              <p>Gestión de comunicación interna y académica, coordinación de eventos, creación de piezas institucionales para redes sociales y actualización de contenidos. Producción de material gráfico para campañas de inscripción.</p>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Canales</span>
-              <div class="channel-tags">
-                <span>Instagram</span><span>Facebook</span><span>Comunicación interna</span>
-              </div>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Resultado</span>
-              <p>Mejora en flujo de información institucional, fortalecimiento del trabajo en equipo y aumento en inscripciones de nuevos periodos.</p>
-            </div>
+            <div class="detail-row"><span class="detail-label">Producción AV</span>
+              <p data-editable>Reels de clases, eventos y campañas de inscripción. Estrategias BTL para captación. ~6 eventos académicos anuales con difusión digital completa.</p></div>
+            <div class="detail-row"><span class="detail-label">Canales</span>
+              <div class="channel-tags"><span>Instagram</span><span>Facebook</span><span>TikTok</span></div></div>
+            <div class="detail-row"><span class="detail-label">Resultado</span>
+              <p data-editable>Aumento de inscripciones y mayor visibilidad institucional en Cartagena.</p></div>
           </div>
           <div class="project-deliverables">
-            <span class="deliverable">📢 Comunicación interna</span>
-            <span class="deliverable">🎨 Piezas gráficas</span>
-            <span class="deliverable">📅 Coordinación académica</span>
+            <span class="deliverable">🎬 Reels académicos</span><span class="deliverable">📢 BTL</span><span class="deliverable">📅 6 eventos/año</span>
           </div>
         </div>
       </div>
 
-      <!-- PASTEUR -->
       <div class="project-card" data-cat="salud">
         <div class="project-visual salud">
-          <div class="project-icon-area">
-            <div class="brand-circle salud-bg">🔬</div>
-          </div>
+          <div class="project-icon-area"><div class="brand-circle">🔬</div></div>
           <span class="project-cat-badge salud-badge">Salud · Laboratorio</span>
         </div>
         <div class="project-body">
-          <h3>Laboratorios Pasteur</h3>
-          <p class="project-sub">Comunicación corporativa y gestión comercial en el sector salud de Colombia</p>
+          <h3 data-editable>Laboratorios Pasteur</h3>
+          <p class="project-sub" data-editable>Comunicación digital, producción de contenido y gestión comercial en el sector salud</p>
           <div class="project-details">
-            <div class="detail-row">
-              <span class="detail-label">Qué hice</span>
-              <p>Redacción de comunicaciones institucionales, segmentación de públicos y coordinación de mensajes informativos dirigidos a profesionales de la salud. Gestión de más de 500 clientes activos.</p>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Canales</span>
-              <div class="channel-tags">
-                <span>Mailing</span><span>Comunicación directa</span><span>RRSS corporativas</span>
-              </div>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Resultado</span>
-              <p>Comunicación más efectiva con profesionales de la salud, mejora en organización de bases de datos y crecimiento del 31% en ventas.</p>
-            </div>
+            <div class="detail-row"><span class="detail-label">Producción AV</span>
+              <p data-editable>Piezas gráficas y comunicación digital con +500 profesionales de la salud vía WhatsApp Business. Participación en ferias, congresos y eventos institucionales del sector.</p></div>
+            <div class="detail-row"><span class="detail-label">Canales</span>
+              <div class="channel-tags"><span>WhatsApp Business</span><span>RRSS corporativas</span><span>Eventos</span></div></div>
+            <div class="detail-row"><span class="detail-label">Resultado</span>
+              <p data-editable>+31% en ventas, comunicación efectiva con 500+ clientes y KPIs reportados al equipo directivo.</p></div>
           </div>
           <div class="project-deliverables">
-            <span class="deliverable">📈 +31% ventas</span>
-            <span class="deliverable">👥 +500 clientes</span>
-            <span class="deliverable">🏥 Sector salud</span>
+            <span class="deliverable">📈 +31% ventas</span><span class="deliverable">👥 +500 clientes</span><span class="deliverable">📊 KPIs</span>
           </div>
         </div>
       </div>
 
-      <!-- GOBERNACION -->
       <div class="project-card" data-cat="publico">
         <div class="project-visual gobierno">
-          <div class="project-icon-area">
-            <div class="brand-circle gobierno-bg">🏛️</div>
-          </div>
+          <div class="project-icon-area"><div class="brand-circle">🏛️</div></div>
           <span class="project-cat-badge gobierno-badge">Sector Público</span>
         </div>
         <div class="project-body">
-          <h3>Gobernación de Bolívar</h3>
-          <p class="project-sub">Comunicación institucional y gestión informativa para entidad pública departamental</p>
+          <h3 data-editable>Gobernación de Bolívar</h3>
+          <p class="project-sub" data-editable>Producción audiovisual, BTL y comunicación institucional para entidad pública departamental</p>
           <div class="project-details">
-            <div class="detail-row">
-              <span class="detail-label">Qué hice</span>
-              <p>Redacción de comunicados oficiales, piezas informativas, apoyo en campañas institucionales, gestión de contenidos web y redes sociales, coordinación logística de eventos gubernamentales.</p>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Canales</span>
-              <div class="channel-tags">
-                <span>Web institucional</span><span>RRSS</span><span>Prensa</span>
-              </div>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Resultado</span>
-              <p>Fortalecimiento de la difusión de campañas institucionales y mayor claridad en la comunicación con la ciudadanía bolivarense.</p>
-            </div>
+            <div class="detail-row"><span class="detail-label">Producción AV</span>
+              <p data-editable>Cobertura digital de eventos gubernamentales y ruedas de prensa. Estrategias BTL de alto impacto en Cartagena. Relaciones públicas con medios y monitoreo de impacto comunicacional.</p></div>
+            <div class="detail-row"><span class="detail-label">Canales</span>
+              <div class="channel-tags"><span>Web institucional</span><span>RRSS</span><span>Prensa</span></div></div>
+            <div class="detail-row"><span class="detail-label">Resultado</span>
+              <p data-editable>Mayor alcance de campañas institucionales y comunicación efectiva con la ciudadanía bolivarense.</p></div>
           </div>
           <div class="project-deliverables">
-            <span class="deliverable">📰 Comunicados oficiales</span>
-            <span class="deliverable">📡 Gestión digital</span>
-            <span class="deliverable">🎤 Eventos</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- TODOMAR / SEATRIAL -->
-      <div class="project-card" data-cat="boutique">
-        <div class="project-visual nautico">
-          <div class="project-icon-area">
-            <div class="brand-circle nautico-bg">⚓</div>
-          </div>
-          <span class="project-cat-badge nautico-badge">Náutico · Lujo</span>
-        </div>
-        <div class="project-body">
-          <h3>Todomar — 30 Años Navegando</h3>
-          <p class="project-sub">Estrategia digital para aniversario de empresa náutica de lujo con presencia en múltiples plataformas</p>
-          <div class="project-details">
-            <div class="detail-row">
-              <span class="detail-label">Qué hice</span>
-              <p>Diseño de estrategia de contenidos multiplataforma para celebración de 30 aniversario. Plan de contenidos para Facebook, Instagram, X, TikTok, LinkedIn y Mailing, con presupuesto de ads y colaboraciones con influencers.</p>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Canales</span>
-              <div class="channel-tags">
-                <span>Instagram</span><span>LinkedIn</span><span>TikTok</span><span>Mailing</span>
-              </div>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Resultado</span>
-              <p>Estrategia integral con presupuesto detallado, plan de contenidos por plataforma y 100% de metas cumplidas.</p>
-            </div>
-          </div>
-          <div class="project-deliverables">
-            <span class="deliverable">🚢 Sector lujo</span>
-            <span class="deliverable">📊 Estrategia 360°</span>
-            <span class="deliverable">✅ 100% metas</span>
+            <span class="deliverable">🎬 Cobertura AV</span><span class="deliverable">📣 BTL</span><span class="deliverable">🤝 RRPP</span>
           </div>
         </div>
       </div>
@@ -475,88 +1622,65 @@
 <section class="section section-soft" id="herramientas">
   <div class="container">
     <div class="section-header">
-      <p class="section-tag">04 · Herramientas & Habilidades</p>
+      <p class="section-tag">05 · Herramientas & Habilidades</p>
       <h2>Caja de herramientas</h2>
     </div>
     <div class="tools-categories">
       <div class="tools-cat-card">
-        <div class="tools-cat-icon">🤖</div>
-        <h3>Inteligencia Artificial</h3>
+        <div class="tools-cat-icon">🎬</div>
+        <h3>Producción Audiovisual</h3>
         <div class="tools-pills">
-          <span>ChatGPT</span><span>Gemini</span><span>Canva IA</span>
-          <span>Adobe Firefly</span><span>Midjourney</span><span>CapCut IA</span>
+          <span>CapCut IA</span><span>Canva Video</span><span>Reels</span><span>TikTok</span><span>Video corto</span>
         </div>
       </div>
       <div class="tools-cat-card">
-        <div class="tools-cat-icon">🎨</div>
-        <h3>Diseño & Contenido</h3>
+        <div class="tools-cat-icon">🤖</div>
+        <h3>Inteligencia Artificial</h3>
         <div class="tools-pills">
-          <span>Canva</span><span>Adobe Premiere</span><span>CapCut</span>
-          <span>Figma</span><span>Adobe Express</span>
+          <span>ChatGPT</span><span>Gemini</span><span>Canva IA</span><span>Adobe Firefly</span><span>Midjourney</span>
         </div>
       </div>
       <div class="tools-cat-card">
         <div class="tools-cat-icon">📱</div>
-        <h3>Redes Sociales</h3>
+        <h3>Redes & Comunidad</h3>
         <div class="tools-pills">
-          <span>Instagram</span><span>TikTok</span><span>LinkedIn</span>
-          <span>Facebook Ads</span><span>Meta Business Suite</span>
+          <span>Instagram</span><span>Facebook</span><span>TikTok</span><span>WhatsApp Business</span><span>Meta Business Suite</span>
         </div>
       </div>
       <div class="tools-cat-card">
         <div class="tools-cat-icon">📊</div>
-        <h3>Gestión & Estrategia</h3>
+        <h3>Datos & Gestión</h3>
         <div class="tools-pills">
-          <span>Google Analytics</span><span>Notion</span><span>Trello</span>
-          <span>Mailchimp</span><span>Google Workspace</span>
+          <span>KPIs & métricas</span><span>Excel intermedio</span><span>Google Analytics</span><span>Google Workspace</span><span>CRM</span>
         </div>
       </div>
     </div>
-
     <div class="competencias">
       <h3>Competencias clave</h3>
       <div class="comp-grid">
         <div class="comp-item">
-          <div class="comp-bar-wrap">
-            <span class="comp-name">Comunicación estratégica</span>
-            <span class="comp-pct">95%</span>
-          </div>
+          <div class="comp-bar-wrap"><span class="comp-name">Producción audiovisual y reels</span><span class="comp-pct">93%</span></div>
+          <div class="comp-bar"><div class="comp-fill" style="width:93%"></div></div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-bar-wrap"><span class="comp-name">Gestión de redes sociales (CM)</span><span class="comp-pct">95%</span></div>
           <div class="comp-bar"><div class="comp-fill" style="width:95%"></div></div>
         </div>
         <div class="comp-item">
-          <div class="comp-bar-wrap">
-            <span class="comp-name">Redacción institucional</span>
-            <span class="comp-pct">92%</span>
-          </div>
+          <div class="comp-bar-wrap"><span class="comp-name">Estrategia de contenidos digitales</span><span class="comp-pct">92%</span></div>
           <div class="comp-bar"><div class="comp-fill" style="width:92%"></div></div>
         </div>
         <div class="comp-item">
-          <div class="comp-bar-wrap">
-            <span class="comp-name">Gestión de redes sociales</span>
-            <span class="comp-pct">90%</span>
-          </div>
-          <div class="comp-bar"><div class="comp-fill" style="width:90%"></div></div>
-        </div>
-        <div class="comp-item">
-          <div class="comp-bar-wrap">
-            <span class="comp-name">Producción de contenido visual</span>
-            <span class="comp-pct">85%</span>
-          </div>
-          <div class="comp-bar"><div class="comp-fill" style="width:85%"></div></div>
-        </div>
-        <div class="comp-item">
-          <div class="comp-bar-wrap">
-            <span class="comp-name">Coordinación de eventos</span>
-            <span class="comp-pct">88%</span>
-          </div>
+          <div class="comp-bar-wrap"><span class="comp-name">Estrategias BTL y eventos</span><span class="comp-pct">88%</span></div>
           <div class="comp-bar"><div class="comp-fill" style="width:88%"></div></div>
         </div>
         <div class="comp-item">
-          <div class="comp-bar-wrap">
-            <span class="comp-name">Herramientas IA</span>
-            <span class="comp-pct">87%</span>
-          </div>
-          <div class="comp-bar"><div class="comp-fill" style="width:87%"></div></div>
+          <div class="comp-bar-wrap"><span class="comp-name">Herramientas IA creativa</span><span class="comp-pct">90%</span></div>
+          <div class="comp-bar"><div class="comp-fill" style="width:90%"></div></div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-bar-wrap"><span class="comp-name">KPIs y reportes de métricas</span><span class="comp-pct">85%</span></div>
+          <div class="comp-bar"><div class="comp-fill" style="width:85%"></div></div>
         </div>
       </div>
     </div>
@@ -567,9 +1691,9 @@
 <section class="section section-dark contact-section" id="contacto">
   <div class="container">
     <div class="section-header light">
-      <p class="section-tag">05 · Contacto</p>
+      <p class="section-tag">06 · Contacto</p>
       <h2>¿Trabajamos juntos?</h2>
-      <p class="section-sub">Disponible para proyectos freelance, roles institucionales y consultoría de comunicación.</p>
+      <p class="section-sub" data-editable>Disponible para proyectos freelance, roles en agencias o empresas, y consultoría de comunicación y producción audiovisual. Contrato indefinido y disponibilidad inmediata.</p>
     </div>
     <div class="contact-grid">
       <div class="contact-info">
@@ -581,10 +1705,6 @@
           <span class="contact-ico">📞</span>
           <span>+57 300-368-3662</span>
         </a>
-        <a href="https://linkedin.com/in/dvlz/" target="_blank" class="contact-item">
-          <span class="contact-ico">🔗</span>
-          <span>linkedin.com/in/dvlz/</span>
-        </a>
         <div class="contact-item">
           <span class="contact-ico">📍</span>
           <span>Cartagena de Indias, Colombia</span>
@@ -593,27 +1713,249 @@
       <div class="contact-cta-card">
         <p class="cta-heading">Servicios disponibles</p>
         <ul class="cta-list">
-          <li>✓ Estrategia de comunicación digital</li>
+          <li>✓ Producción de reels y video corto</li>
           <li>✓ Gestión de redes sociales (CM)</li>
-          <li>✓ Redacción y contenidos institucionales</li>
-          <li>✓ Coordinación de eventos</li>
-          <li>✓ Consultoría de marca y posicionamiento</li>
-          <li>✓ Comunicación corporativa</li>
+          <li>✓ Estrategias BTL y eventos de lanzamiento</li>
+          <li>✓ Copywriting y contenidos digitales</li>
+          <li>✓ Relaciones públicas y comunicación institucional</li>
+          <li>✓ Producción con herramientas de IA</li>
         </ul>
-        <a href="mailto:vdanielavelez@gmail.com" class="btn btn-primary full-btn">Enviar mensaje</a>
+        <a href="mailto:vdanielavelez@gmail.com" class="btn btn-primary full-btn">Enviar mensaje ✉</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- APRENDIZAJE CONTINUO -->
+<section class="section learn-section">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-tag">07 · Mentalidad de crecimiento</p>
+      <h2 data-editable>Siempre un paso adelante<br>de las tendencias</h2>
+      <p class="section-sub" data-editable>En un ecosistema digital que cambia cada semana, la ventaja competitiva está en quién aprende más rápido. Esa es mi filosofía de trabajo.</p>
+    </div>
+    <div class="learn-grid">
+      <div class="learn-card learn-big">
+        <span class="learn-emoji">⚡</span>
+        <h3 data-editable>Aprendizaje rápido</h3>
+        <p data-editable>Capacidad comprobada de adoptar herramientas nuevas en días, no semanas. Cuando CapCut IA, Midjourney o Adobe Firefly salieron al mercado, los integré de inmediato a mi flujo de producción sin formación formal — aprendizaje autodidacta, aplicación inmediata.</p>
+      </div>
+      <div class="learn-card">
+        <span class="learn-emoji">📲</span>
+        <h3 data-editable>Al día con tendencias</h3>
+        <p data-editable>Seguimiento constante de algoritmos de Instagram, TikTok y LinkedIn. Formatos que funcionan hoy: carruseles, reels con texto en pantalla, UGC, hooks de 3 segundos.</p>
+      </div>
+      <div class="learn-card">
+        <span class="learn-emoji">🛠️</span>
+        <h3 data-editable>IA al servicio del contenido</h3>
+        <p data-editable>ChatGPT para estrategia y copy, Midjourney para visuales, CapCut IA para edición acelerada. Flujo de producción moderno que multiplica la salida sin sacrificar calidad.</p>
+      </div>
+      <div class="learn-card">
+        <span class="learn-emoji">🎓</span>
+        <h3 data-editable>Formación continua</h3>
+        <p data-editable>Diplomado en Marketing Digital (2023), Harvard ManageMentor, UNIR. Actualmente en constante actualización en producción audiovisual, IA creativa y estrategia de contenidos.</p>
+      </div>
+    </div>
+
+    <div class="learn-timeline">
+      <p class="learn-tl-label">Herramientas adoptadas en los últimos 2 años</p>
+      <div class="learn-tl-items">
+        <div class="learn-tl-item"><span class="tl-dot"></span><span class="tl-tool">CapCut IA</span></div>
+        <div class="learn-tl-item"><span class="tl-dot"></span><span class="tl-tool">Midjourney</span></div>
+        <div class="learn-tl-item"><span class="tl-dot"></span><span class="tl-tool">Adobe Firefly</span></div>
+        <div class="learn-tl-item"><span class="tl-dot"></span><span class="tl-tool">Canva IA</span></div>
+        <div class="learn-tl-item"><span class="tl-dot"></span><span class="tl-tool">ChatGPT</span></div>
+        <div class="learn-tl-item"><span class="tl-dot"></span><span class="tl-tool">Gemini</span></div>
+        <div class="learn-tl-item"><span class="tl-dot"></span><span class="tl-tool">Meta Business Suite</span></div>
+        <div class="learn-tl-item"><span class="tl-dot"></span><span class="tl-tool">WhatsApp Business</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="footer">
   <div class="container">
-    <p>Daniela Andrea Racero Vélez · Comunicadora Social · Cartagena de Indias</p>
-    <p class="footer-sub">Comunicación Estratégica e Institucional · © 2025</p>
+    <p>Daniela Vélez · Community Manager · Marketing Digital · Cartagena de Indias</p>
+    <p class="footer-sub">Comunicación Estratégica · Producción Audiovisual · © 2025</p>
+    <p class="footer-admin"><a href="#" id="adminLoginLink">Admin</a></p>
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script>
+// NAV scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Mobile nav
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+// Project filter
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.classList.toggle('hidden', f !== 'all' && card.dataset.cat !== f);
+    });
+  });
+});
+
+// Timeline animation
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.timeline-item').forEach(el => obs.observe(el));
+
+// Skill bars
+const compSection = document.querySelector('.competencias');
+const fillBars = document.querySelectorAll('.comp-fill');
+const fillObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      fillBars.forEach(bar => {
+        const t = bar.style.width; bar.style.width = '0';
+        requestAnimationFrame(() => setTimeout(() => { bar.style.width = t; }, 50));
+      });
+      fillObs.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+if (compSection) fillObs.observe(compSection);
+
+// ===== ADMIN SYSTEM =====
+const ADMIN_USER = 'daniela';
+const ADMIN_PASS = 'dvlz2025';
+const STORAGE_KEY = 'book_edits';
+
+let isAdmin = false;
+let editMode = false;
+
+// Load saved edits from localStorage
+function loadEdits() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const edits = JSON.parse(saved);
+    document.querySelectorAll('[data-editable]').forEach((el, i) => {
+      if (edits[i] !== undefined) el.innerHTML = edits[i];
+    });
+  } catch(e) {}
+}
+
+// Save all edits
+function saveEdits() {
+  const edits = {};
+  document.querySelectorAll('[data-editable]').forEach((el, i) => {
+    edits[i] = el.innerHTML;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(edits));
+  showStatus('✓ Guardado correctamente');
+}
+
+// Enable edit mode
+function enableEdit() {
+  document.querySelectorAll('[data-editable]').forEach(el => {
+    el.contentEditable = 'true';
+    el.spellcheck = false;
+  });
+  document.body.classList.add('edit-mode');
+  editMode = true;
+  document.getElementById('toggleEdit').textContent = '🖊 Edición activa';
+  document.getElementById('toggleEdit').classList.add('adm-btn-on');
+}
+
+function disableEdit() {
+  document.querySelectorAll('[data-editable]').forEach(el => {
+    el.contentEditable = 'false';
+  });
+  document.body.classList.remove('edit-mode');
+  editMode = false;
+  document.getElementById('toggleEdit').textContent = '👁 Solo lectura';
+  document.getElementById('toggleEdit').classList.remove('adm-btn-on');
+}
+
+function showStatus(msg) {
+  const s = document.getElementById('adm-status');
+  s.textContent = msg;
+  setTimeout(() => { s.textContent = ''; }, 3000);
+}
+
+// Export full HTML
+function exportHtml() {
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'book_daniela_velez.html';
+  a.click();
+  showStatus('✓ HTML exportado');
+}
+
+// Login
+const loginOverlay = document.getElementById('loginOverlay');
+const adminBar = document.getElementById('adminBar');
+
+document.getElementById('adminLoginLink').addEventListener('click', e => {
+  e.preventDefault();
+  loginOverlay.style.display = 'flex';
+  setTimeout(() => document.getElementById('loginUser').focus(), 100);
+});
+
+document.getElementById('loginBtn').addEventListener('click', () => {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    loginOverlay.style.display = 'none';
+    adminBar.style.display = 'block';
+    isAdmin = true;
+    loadEdits();
+    enableEdit();
+  } else {
+    document.getElementById('loginError').textContent = 'Usuario o contraseña incorrectos';
+    document.getElementById('loginPass').value = '';
+  }
+});
+
+// Enter key on login
+document.getElementById('loginPass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('loginBtn').click();
+});
+document.getElementById('loginUser').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('loginPass').focus();
+});
+
+// Admin panel buttons
+document.getElementById('adminClose').addEventListener('click', () => {
+  if (confirm('¿Cerrar el panel de admin? Los cambios guardados se conservan.')) {
+    adminBar.style.display = 'none';
+    disableEdit();
+    isAdmin = false;
+  }
+});
+
+document.getElementById('toggleEdit').addEventListener('click', () => {
+  editMode ? disableEdit() : enableEdit();
+});
+
+document.getElementById('saveAll').addEventListener('click', saveEdits);
+document.getElementById('exportHtml').addEventListener('click', exportHtml);
+
+// Auto-save on any edit
+document.addEventListener('input', e => {
+  if (e.target.hasAttribute('data-editable') && isAdmin) {
+    showStatus('● Cambios sin guardar — haz clic en Guardar');
+  }
+});
+
+// Load edits on page load (persists across visits)
+loadEdits();
+
+</script>
 </body>
 </html>
