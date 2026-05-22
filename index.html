@@ -1245,9 +1245,47 @@ body.edit-mode [data-editable]:focus {
   .video-grid { grid-template-columns: repeat(2, 1fr); }
   .pieces-grid { grid-template-columns: 1fr; }
 }
+/* ===== LIGHTBOX ===== */
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0,0,0,.92);
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+#lightbox.open { display: flex; }
+#lightbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 8px 60px rgba(0,0,0,.5);
+  cursor: default;
+  user-select: none;
+}
+#lightbox-close {
+  position: absolute;
+  top: 20px; right: 24px;
+  font-size: 28px;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  line-height: 1;
+  transition: color .2s;
+}
+#lightbox-close:hover { color: #fff; }
+#lightbox-caption {
+  position: absolute;
+  bottom: 24px;
+  left: 50%; transform: translateX(-50%);
+  font-size: 13px;
+  color: rgba(255,255,255,.6);
+  white-space: nowrap;
+}
 
-</style>
-</head>
+
 <body>
 
 <!-- ADMIN PANEL -->
@@ -1257,11 +1295,12 @@ body.edit-mode [data-editable]:focus {
       <span class="adm-logo">✏️ Editor de contenido</span>
       <button id="adminClose" class="adm-close">✕ Cerrar</button>
     </div>
-    <p class="adm-hint">Haz clic en cualquier texto resaltado para editarlo. Los cambios se guardan en el navegador.</p>
+    <p class="adm-hint">Haz clic en cualquier texto resaltado para editarlo. Para imágenes y cambios permanentes usa el panel de admin.</p>
     <div class="adm-actions">
       <button id="toggleEdit" class="adm-btn adm-btn-on">🖊 Edición activa</button>
       <button id="saveAll" class="adm-btn adm-btn-save">💾 Guardar</button>
       <button id="exportHtml" class="adm-btn adm-btn-export">⬇ Exportar HTML</button>
+      <a href="admin.html" target="_blank" style="padding:8px 14px;border-radius:6px;border:1px solid rgba(201,169,110,.5);font-size:12px;font-weight:500;cursor:pointer;background:rgba(201,169,110,.1);color:var(--accent2);text-decoration:none">⚙ Admin completo</a>
     </div>
     <div id="adm-status" class="adm-status"></div>
   </div>
@@ -1533,13 +1572,7 @@ body.edit-mode [data-editable]:focus {
           </div>     </div>
           <p class="piece-desc">Diseño de pieza para campaña de copago cero — comunicación de beneficios a pacientes</p>
         </div>
-        <div class="piece-card">
-          <div class="piece-img piece-img-pas2" style="background:#0a4d8c">
-            <div class="piece-placeholder"><span>📊</span>Dashboard KPIs<br>Facturación mensual CTG<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
-            <div class="piece-overlay"><span class="piece-overlay-text">Dashboard KPIs · Facturación mensual CTG</span></div>
-          </div>     </div>
-          <p class="piece-desc">Reporte de KPIs y seguimiento de metas mensuales presentado al equipo directivo</p>
-        </div>
+
         <div class="piece-card">
           <div class="piece-img piece-img-pas3" style="background:#0a4d8c">
             <div class="piece-placeholder"><span>🎪</span>Evento corporativo<br>Sede Cartagena<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
@@ -1602,13 +1635,7 @@ body.edit-mode [data-editable]:focus {
           </div>     </div>
           <p class="piece-desc">Identidad visual y pieza de presentación para perfumería premium en Cartagena</p>
         </div>
-        <div class="piece-card">
-          <div class="piece-img piece-img-ret3" style="background:#0a3d5c">
-            <div class="piece-placeholder"><span>⚓</span>SeaTrail<br>Estrategia 360°<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
-            <div class="piece-overlay"><span class="piece-overlay-text">SeaTrail · Estrategia 360°</span></div>
-          </div>     </div>
-          <p class="piece-desc">Plan de contenidos multiplataforma y presupuesto de ads para 30 aniversario náutico</p>
-        </div>
+
       </div>
       <div class="piece-result">
         <span class="result-highlight">📋 Rol:</span> Consultora Freelance &nbsp;|&nbsp;
@@ -2053,8 +2080,14 @@ body.edit-mode [data-editable]:focus {
   </div>
 </footer>
 
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span id="lightbox-close">✕</span>
+  <img id="lightbox-img" src="" alt="">
+  <span id="lightbox-caption"></span>
+</div>
+
 <script>
-// NAV scroll
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
 
@@ -2139,6 +2172,8 @@ function loadPieceImages() {
       const iframes = document.querySelectorAll('.video-wrap iframe');
       if (iframes[idx]) iframes[idx].src = 'https://www.youtube.com/embed/' + ytId;
     });
+    // Re-attach lightbox clicks after images load
+    if (typeof attachPieceClicks === 'function') attachPieceClicks();
   } catch(e) {}
 }
 
@@ -2207,6 +2242,43 @@ document.addEventListener('input', e => { if(e.target.hasAttribute('data-editabl
 // Cargar todo al iniciar (para visitantes y para admin)
 loadPieceImages();
 loadEdits();
+
+// ===== LIGHTBOX =====
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCaption = document.getElementById('lightbox-caption');
+
+function openLightbox(src, caption) {
+  lightboxImg.src = src;
+  lightboxCaption.textContent = caption || '';
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightboxImg.src = '';
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+
+// Adjuntar click a cada pieza gráfica
+function attachPieceClicks() {
+  document.querySelectorAll('.piece-img').forEach(el => {
+    el.style.cursor = 'zoom-in';
+    el.addEventListener('click', () => {
+      const bg = el.style.backgroundImage;
+      const caption = el.querySelector('.piece-overlay-text')?.textContent || '';
+      if (bg && bg !== 'none' && bg !== '') {
+        // Tiene imagen real cargada
+        const url = bg.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+        openLightbox(url, caption);
+      }
+    });
+  });
+}
+attachPieceClicks();
 
 </script>
 </body>
