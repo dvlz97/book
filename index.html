@@ -2108,7 +2108,39 @@ if (compSection) fillObs.observe(compSection);
 const ADMIN_USER = 'daniela';
 const ADMIN_PASS = 'dvlz2025';
 const STORAGE_KEY = 'book_edits';
+const ADMIN_STORE = 'dvlz_admin_data';
 let isAdmin = false, editMode = false;
+
+// Carga imágenes de piezas desde localStorage (guardadas por admin.html)
+function loadPieceImages() {
+  try {
+    const data = JSON.parse(localStorage.getItem(ADMIN_STORE)) || {};
+    Object.entries(data).forEach(([k, v]) => {
+      if (!k.startsWith('piece_')) return;
+      const key = k.replace('piece_', '');
+      const el = document.querySelector('.piece-img-' + key);
+      if (el) {
+        el.style.backgroundImage = 'url(' + v + ')';
+        el.style.backgroundSize = 'cover';
+        el.style.backgroundPosition = 'center';
+        const ph = el.querySelector('.piece-placeholder');
+        if (ph) ph.style.display = 'none';
+      }
+    });
+    // Foto de perfil
+    if (data.profile_img) {
+      const profileEl = document.getElementById('heroProfileImg');
+      if (profileEl) { profileEl.src = data.profile_img; profileEl.style.display = 'block'; }
+    }
+    // Videos
+    Object.entries(data).forEach(([k, ytId]) => {
+      if (!k.startsWith('video_video')) return;
+      const idx = parseInt(k.replace('video_video',''), 10) - 1;
+      const iframes = document.querySelectorAll('.video-wrap iframe');
+      if (iframes[idx]) iframes[idx].src = 'https://www.youtube.com/embed/' + ytId;
+    });
+  } catch(e) {}
+}
 
 function loadEdits() {
   try {
@@ -2172,6 +2204,8 @@ document.getElementById('saveAll').addEventListener('click', saveEdits);
 document.getElementById('exportHtml').addEventListener('click', exportHtml);
 document.addEventListener('input', e => { if(e.target.hasAttribute('data-editable') && isAdmin) showStatus('● Sin guardar'); });
 
+// Cargar todo al iniciar (para visitantes y para admin)
+loadPieceImages();
 loadEdits();
 
 </script>

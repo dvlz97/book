@@ -242,6 +242,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     <button class="sidebar-item" data-panel="retail"><span class="ico">🛍️</span>Retail & Marcas</button>
     <div class="sidebar-section" style="margin-top:12px">Perfil</div>
     <button class="sidebar-item" data-panel="profile"><span class="ico">👤</span>Foto de perfil</button>
+    <button class="sidebar-item" data-panel="textos"><span class="ico">✏️</span>Editar textos</button>
     <button class="sidebar-item" data-panel="export"><span class="ico">⬇️</span>Exportar</button>
   </div>
 
@@ -310,6 +311,17 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
         </div>
         <button class="save-btn" onclick="saveProfile()">💾 Guardar foto</button>
       </div>
+    </div>
+
+    <!-- TEXTOS -->
+    <div class="panel" id="panel-textos">
+      <p class="panel-title">✏️ Editar textos</p>
+      <p class="panel-sub">Edita los textos principales del book. Recuerda exportar y subir a GitHub para que los cambios sean visibles para todos.</p>
+      <div class="instruction-box">
+        <strong>Cómo funciona:</strong> Edita los campos abajo → haz clic en <strong>Guardar textos</strong> → luego ve a <strong>Exportar</strong> y descarga el HTML actualizado → súbelo a GitHub.
+      </div>
+      <div id="textFieldsContainer"></div>
+      <button class="save-btn" onclick="saveTexts()">💾 Guardar textos</button>
     </div>
 
     <!-- EXPORT -->
@@ -540,28 +552,71 @@ function saveProfile() { toast('✓ Foto de perfil guardada'); }
 // EXPORT
 function exportBook() {
   const data = getData();
-  // Open index.html and inject saved data as a script
+
+  // Also grab text edits saved by index.html's own admin bar (key: book_edits)
+  let bookEdits = {};
+  try { bookEdits = JSON.parse(localStorage.getItem('book_edits')) || {}; } catch(e){}
+
   const script = `<script>
-  // Admin saved data injected on export
+  // ── Datos inyectados por Admin al exportar ──
   (function(){
-    const d = ${JSON.stringify(data)};
-    localStorage.setItem('dvlz_admin_data', JSON.stringify(d));
-    // Apply text edits
-    const edits = d.text_edits || {};
-    document.querySelectorAll('[data-editable]').forEach((el,i)=>{ if(edits[i]) el.innerHTML=edits[i]; });
-    // Apply piece images
-    Object.entries(d).forEach(([k,v])=>{
-      if(k.startsWith('piece_')){
-        const cls = '.piece-img-'+k.replace('piece_','');
-        const el = document.querySelector(cls);
-        if(el){ el.style.backgroundImage='url('+v+')'; el.style.backgroundSize='cover'; }
-      }
-    });
+    // 1. Imágenes de piezas gráficas
+    const pieces = ${JSON.stringify(
+      Object.fromEntries(Object.entries(data).filter(([k])=>k.startsWith('piece_')))
+    )};
+    function applyPieces(){
+      Object.entries(pieces).forEach(([k,v])=>{
+        const key = k.replace('piece_','');
+        const el = document.querySelector('.piece-img-'+key);
+        if(el){
+          el.style.backgroundImage='url('+v+')';
+          el.style.backgroundSize='cover';
+          el.style.backgroundPosition='center';
+          // Ocultar placeholder cuando hay imagen real
+          const ph = el.querySelector('.piece-placeholder');
+          if(ph) ph.style.display='none';
+        }
+      });
+    }
+    // 2. Foto de perfil
+    const profileImg = ${JSON.stringify(data.profile_img || '')};
+    function applyProfile(){
+      if(!profileImg) return;
+      const el = document.getElementById('heroProfileImg');
+      if(el){ el.src=profileImg; el.style.display='block'; }
+    }
+    // 3. Videos de YouTube
+    const videos = ${JSON.stringify(
+      Object.fromEntries(Object.entries(data).filter(([k])=>k.startsWith('video_')))
+    )};
+    function applyVideos(){
+      Object.entries(videos).forEach(([k,ytId])=>{
+        // busca el iframe cuyo src contenga el id original de ese slot
+        const idx = k.replace('video_video','');
+        const iframes = document.querySelectorAll('.video-wrap iframe');
+        const slotIndex = parseInt(idx,10)-1;
+        if(iframes[slotIndex]) iframes[slotIndex].src='https://www.youtube.com/embed/'+ytId;
+      });
+    }
+    // 4. Textos editables
+    const edits = ${JSON.stringify(bookEdits)};
+    function applyEdits(){
+      document.querySelectorAll('[data-editable]').forEach((el,i)=>{
+        if(edits[i] !== undefined) el.innerHTML = edits[i];
+      });
+    }
+    // Aplicar todo al cargar
+    if(document.readyState==='loading'){
+      document.addEventListener('DOMContentLoaded',()=>{ applyPieces(); applyProfile(); applyVideos(); applyEdits(); });
+    } else {
+      applyPieces(); applyProfile(); applyVideos(); applyEdits();
+    }
   })();
   <\/script>`;
+
   toast('⬇️ Preparando descarga...', 4000);
   fetch('index.html').then(r=>r.text()).then(html=>{
-    const final = html.replace('</body>', script+'</body>');
+    const final = html.replace('</body>', script+'\n</body>');
     const blob = new Blob([final], {type:'text/html'});
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -589,6 +644,86 @@ function initPanels() {
     const prev = document.getElementById('profilePreview');
     prev.src = data.profile_img; prev.style.display='block';
   }
+  initTextPanel();
+}
+
+// TEXT EDITOR PANEL
+// Labels legibles para los data-editable del index (en orden de aparición)
+const textLabels = [
+  'Hero — Descripción del rol (sub-título)',
+  'Perfil — Párrafo principal (lead)',
+  'Perfil — Párrafo secundario',
+  'Perfil — Habilidad 1',
+  'Perfil — Habilidad 2',
+  'Perfil — Habilidad 3',
+  'Perfil — Habilidad 4',
+  'Perfil — Habilidad 5',
+  'Perfil — Habilidad 6',
+  'Perfil — Formación 1',
+  'Perfil — Formación 2',
+  'Perfil — Formación 3',
+  'Audiovisual — Título sección',
+  'Audiovisual — Subtítulo sección',
+  'Audiovisual — Reels & Video: título',
+  'Audiovisual — Reels & Video: texto',
+  'Audiovisual — Cobertura Eventos: título',
+  'Audiovisual — Cobertura Eventos: texto',
+  'Audiovisual — Producción IA: título',
+  'Audiovisual — Producción IA: texto',
+  'Audiovisual — Piezas Gráficas: título',
+  'Audiovisual — Piezas Gráficas: texto',
+  'Experiencia — Pasteur: empresa',
+  'Experiencia — Pasteur: rol',
+  'Experiencia — Pasteur: descripción',
+  'Experiencia — Freelancer: empresa',
+  'Experiencia — Freelancer: rol',
+  'Experiencia — Freelancer: descripción',
+  'Experiencia — Gobernación: empresa',
+  'Experiencia — Gobernación: rol',
+  'Experiencia — Gobernación: descripción',
+  'Experiencia — Tweetalig: empresa',
+  'Experiencia — Tweetalig: rol',
+  'Experiencia — Tweetalig: descripción',
+  'Contacto — Texto disponibilidad',
+  'Crecimiento — Título sección',
+  'Crecimiento — Subtítulo sección',
+  'Crecimiento — Aprendizaje rápido: título',
+  'Crecimiento — Aprendizaje rápido: texto',
+  'Crecimiento — Al día tendencias: título',
+  'Crecimiento — Al día tendencias: texto',
+  'Crecimiento — IA contenido: título',
+  'Crecimiento — IA contenido: texto',
+  'Crecimiento — Formación continua: título',
+  'Crecimiento — Formación continua: texto',
+];
+
+function initTextPanel() {
+  let edits = {};
+  try { edits = JSON.parse(localStorage.getItem('book_edits')) || {}; } catch(e){}
+  const container = document.getElementById('textFieldsContainer');
+  if(!container) return;
+  container.innerHTML = textLabels.map((label, i) => {
+    const val = (edits[i] || '').replace(/<[^>]*>/g,'');
+    const isLong = label.includes('texto') || label.includes('descripción') || label.includes('Párrafo');
+    return `<div class="form-group">
+      <label>${label}</label>
+      ${isLong
+        ? `<textarea id="tf_${i}" rows="3">${val}</textarea>`
+        : `<input type="text" id="tf_${i}" value="${val.replace(/"/g,'&quot;')}">`
+      }
+    </div>`;
+  }).join('');
+}
+
+function saveTexts() {
+  let edits = {};
+  try { edits = JSON.parse(localStorage.getItem('book_edits')) || {}; } catch(e){}
+  textLabels.forEach((_, i) => {
+    const el = document.getElementById('tf_'+i);
+    if(el) edits[i] = el.value;
+  });
+  localStorage.setItem('book_edits', JSON.stringify(edits));
+  toast('✓ Textos guardados — ahora ve a Exportar');
 }
 </script>
 </body>
