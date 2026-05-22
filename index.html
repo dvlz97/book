@@ -1158,6 +1158,94 @@ body.edit-mode [data-editable]:focus {
   .learn-grid { grid-template-columns: 1fr; }
 }
 
+/* ===== VIDEO GALLERY ===== */
+.real-content-header { margin-bottom: 24px; }
+.real-content-title {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 6px;
+}
+.real-content-sub { font-size: 14px; color: var(--gray-600); }
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 56px;
+}
+.video-item { display: flex; flex-direction: column; gap: 10px; }
+.video-label {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--gray-400);
+}
+.video-wrap {
+  position: relative; width: 100%; padding-bottom: 177%;
+  background: var(--black); border-radius: var(--radius); overflow: hidden;
+}
+.video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+/* ===== PIECES GALLERY ===== */
+.pieces-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.piece-tab {
+  padding: 9px 20px; border-radius: 100px;
+  border: 1.5px solid var(--gray-200); background: transparent;
+  font-size: 13px; font-weight: 500; color: var(--gray-600);
+  cursor: pointer; transition: all .2s;
+}
+.piece-tab:hover { border-color: var(--black); color: var(--black); }
+.piece-tab.active { background: var(--black); border-color: var(--black); color: var(--white); }
+.pieces-panel { display: none; }
+.pieces-panel.active { display: block; }
+
+.pieces-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-bottom: 20px;
+}
+.piece-card { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--gray-200); background: var(--white); }
+.piece-img {
+  position: relative; width: 100%; padding-bottom: 65%;
+  background: var(--gray-200); background-size: cover; background-position: center;
+  cursor: pointer; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.piece-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; color: var(--gray-400); font-size: 12px; font-weight: 500;
+  position: absolute; inset: 0; text-align: center; padding: 12px;
+}
+.piece-placeholder span { font-size: 28px; }
+.piece-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,.55);
+  display: flex; align-items: flex-end; padding: 14px;
+  opacity: 0; transition: opacity .25s;
+}
+.piece-img:hover .piece-overlay { opacity: 1; }
+.piece-overlay-text { font-size: 12px; font-weight: 500; color: var(--white); line-height: 1.4; }
+.piece-desc { padding: 12px 14px; font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+
+.piece-result {
+  background: var(--gray-50); border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 14px 18px;
+  font-size: 12px; color: var(--gray-600); line-height: 1.8;
+}
+.result-highlight { font-weight: 600; color: var(--black); }
+
+/* ===== ADMIN PAGE LINK ===== */
+.footer-admin a { font-size: 11px; color: rgba(255,255,255,.15); text-decoration: none; transition: .2s; }
+.footer-admin a:hover { color: rgba(255,255,255,.4); }
+
+@media (max-width: 900px) {
+  .video-grid { grid-template-columns: repeat(2, 1fr); }
+  .pieces-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .video-grid { grid-template-columns: repeat(2, 1fr); }
+  .pieces-grid { grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -1345,6 +1433,190 @@ body.edit-mode [data-editable]:focus {
         <span class="av-client">Laboratorios Pasteur</span>
       </div>
     </div>
+
+    <!-- VIDEOS REALES -->
+    <div class="real-content-header">
+      <p class="section-tag" style="margin-top:60px">Muestras de trabajo</p>
+      <h3 class="real-content-title">Videos producidos</h3>
+      <p class="real-content-sub">Contenido real creado para clientes — haz clic para reproducir</p>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-item">
+        <div class="video-label">Caseritos CTG · Gastronomía</div>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/b31XyqHW6vE" 
+            title="Caseritos CTG" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="video-item">
+        <div class="video-label">Contenido social · Reel</div>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/7Pie3vGiPPQ" 
+            title="Reel 2" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="video-item">
+        <div class="video-label">Contenido social · Reel</div>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/HejHFns4xVg" 
+            title="Reel 3" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="video-item">
+        <div class="video-label">Contenido social · Reel</div>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/960GtOQHlGk" 
+            title="Reel 4" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALERIA DE PIEZAS GRAFICAS -->
+    <div class="real-content-header">
+      <h3 class="real-content-title" style="margin-top:48px">Piezas gráficas & estrategia</h3>
+      <p class="real-content-sub">Contenido gráfico, estrategias y piezas institucionales por cliente</p>
+    </div>
+
+    <div class="pieces-tabs">
+      <button class="piece-tab active" data-piece="gobernacion">Gobernación de Bolívar</button>
+      <button class="piece-tab" data-piece="pasteur">Laboratorios Pasteur</button>
+      <button class="piece-tab" data-piece="tweetalig">Tweetalig</button>
+      <button class="piece-tab" data-piece="retail">Retail & Marcas</button>
+    </div>
+
+    <div class="pieces-panel active" id="piece-gobernacion">
+      <div class="pieces-grid">
+        <div class="piece-card">
+          <div class="piece-img piece-img-gov1" style="background:#1e3a5f">
+            <div class="piece-placeholder"><span>🏛️</span>Campaña institucional<br>Gobernador Blel<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Campaña institucional · Gobernador Blel</span></div>
+          </div>     </div>
+          <p class="piece-desc">Pieza para convocatoria del Gabinete Departamental — comunicación oficial y eventos electorales</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-gov2" style="background:#1e3a5f">
+            <div class="piece-placeholder"><span>📋</span>Evento institucional<br>Sala de reuniones<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Evento institucional · Sala de reuniones</span></div>
+          </div>     </div>
+          <p class="piece-desc">Cobertura y coordinación de rueda de prensa con más de 50 asistentes</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-gov3" style="background:#1e3a5f">
+            <div class="piece-placeholder"><span>⚾</span>Campaña BTL<br>Fundación Giovanny Urshela<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Campaña BTL · Fundación Giovanny Urshela</span></div>
+          </div>     </div>
+          <p class="piece-desc">Pieza digital para evento de béisbol y donación de juguetes en Bocagrande</p>
+        </div>
+      </div>
+      <div class="piece-result">
+        <span class="result-highlight">📋 Rol:</span> Analista de Comunicaciones · Secretaría del Interior &nbsp;|&nbsp;
+        <span class="result-highlight">📅 Período:</span> Sep – Dic 2023 &nbsp;|&nbsp;
+        <span class="result-highlight">✅ Entregables:</span> Comunicados oficiales, cobertura AV, gestión de RRSS institucionales, BTL
+      </div>
+    </div>
+
+    <div class="pieces-panel" id="piece-pasteur">
+      <div class="pieces-grid">
+        <div class="piece-card">
+          <div class="piece-img piece-img-pas1" style="background:#0a4d8c">
+            <div class="piece-placeholder"><span>🔬</span>Pieza alianza<br>Pasteur + Seguros Bolívar<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Pieza alianza · Pasteur + Seguros Bolívar</span></div>
+          </div>     </div>
+          <p class="piece-desc">Diseño de pieza para campaña de copago cero — comunicación de beneficios a pacientes</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-pas2" style="background:#0a4d8c">
+            <div class="piece-placeholder"><span>📊</span>Dashboard KPIs<br>Facturación mensual CTG<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Dashboard KPIs · Facturación mensual CTG</span></div>
+          </div>     </div>
+          <p class="piece-desc">Reporte de KPIs y seguimiento de metas mensuales presentado al equipo directivo</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-pas3" style="background:#0a4d8c">
+            <div class="piece-placeholder"><span>🎪</span>Evento corporativo<br>Sede Cartagena<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Evento corporativo · Sede Cartagena</span></div>
+          </div>     </div>
+          <p class="piece-desc">Organización y cobertura de evento corporativo con equipo comercial y directivos</p>
+        </div>
+      </div>
+      <div class="piece-result">
+        <span class="result-highlight">📋 Rol:</span> Ejecutiva Comercial &nbsp;|&nbsp;
+        <span class="result-highlight">📅 Período:</span> Ene 2025 – Ene 2026 &nbsp;|&nbsp;
+        <span class="result-highlight">📈 Resultado:</span> +31% ventas · +500 clientes · KPIs reportados
+      </div>
+    </div>
+
+    <div class="pieces-panel" id="piece-tweetalig">
+      <div class="pieces-grid">
+        <div class="piece-card">
+          <div class="piece-img piece-img-tw1" style="background:#0d6e6e">
+            <div class="piece-placeholder"><span>🎓</span>Apertura inscripciones<br>Tweetalig 2024<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Apertura inscripciones · Tweetalig 2024</span></div>
+          </div>     </div>
+          <p class="piece-desc">Campaña de inscripciones con diseño en Canva y copy estratégico para captar nuevos estudiantes</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-tw2" style="background:#0d6e6e">
+            <div class="piece-placeholder"><span>📚</span>Contenido social<br>Beneficios Tweetalig<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Contenido social · Beneficios Tweetalig</span></div>
+          </div>     </div>
+          <p class="piece-desc">Pieza educativa destacando exámenes de suficiencia incluidos — engagement y diferenciación</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-tw3" style="background:#0d6e6e">
+            <div class="piece-placeholder"><span>🎉</span>Evento académico<br>Feria de idiomas<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Evento académico · Feria de idiomas</span></div>
+          </div>     </div>
+          <p class="piece-desc">Cobertura y organización de evento presencial con más de 100 estudiantes y 20 docentes</p>
+        </div>
+      </div>
+      <div class="piece-result">
+        <span class="result-highlight">📋 Rol:</span> Coordinadora Académica &nbsp;|&nbsp;
+        <span class="result-highlight">📅 Período:</span> Sep 2021 – Dic 2023 &nbsp;|&nbsp;
+        <span class="result-highlight">✅ Entregables:</span> Reels, piezas RRSS, BTL, 6 eventos/año, 1.000 estudiantes
+      </div>
+    </div>
+
+    <div class="pieces-panel" id="piece-retail">
+      <div class="pieces-grid">
+        <div class="piece-card">
+          <div class="piece-img piece-img-ret1" style="background:#c0451e">
+            <div class="piece-placeholder"><span>🍽️</span>Caseritos CTG<br>Dark Kitchen<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Caseritos CTG · Dark Kitchen</span></div>
+          </div>     </div>
+          <p class="piece-desc">Pieza gráfica para domicilios con rutas de entrega, branding e identidad visual completa</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-ret2" style="background:#5b2d8e">
+            <div class="piece-placeholder"><span>✨</span>Perfumería 23<br>Retail lujo<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">Perfumería 23 · Retail lujo</span></div>
+          </div>     </div>
+          <p class="piece-desc">Identidad visual y pieza de presentación para perfumería premium en Cartagena</p>
+        </div>
+        <div class="piece-card">
+          <div class="piece-img piece-img-ret3" style="background:#0a3d5c">
+            <div class="piece-placeholder"><span>⚓</span>SeaTrail<br>Estrategia 360°<br><small style="opacity:.6;font-size:10px">Sube imagen en Admin</small></div>
+            <div class="piece-overlay"><span class="piece-overlay-text">SeaTrail · Estrategia 360°</span></div>
+          </div>     </div>
+          <p class="piece-desc">Plan de contenidos multiplataforma y presupuesto de ads para 30 aniversario náutico</p>
+        </div>
+      </div>
+      <div class="piece-result">
+        <span class="result-highlight">📋 Rol:</span> Consultora Freelance &nbsp;|&nbsp;
+        <span class="result-highlight">📅 Período:</span> Feb 2024 – Actualidad &nbsp;|&nbsp;
+        <span class="result-highlight">📈 Resultado:</span> +20% comunidades en 6 meses
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1784,9 +2056,7 @@ body.edit-mode [data-editable]:focus {
 <script>
 // NAV scroll
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-});
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
 
 // Mobile nav
 const navToggle = document.getElementById('navToggle');
@@ -1800,16 +2070,22 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const f = btn.dataset.filter;
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.classList.toggle('hidden', f !== 'all' && card.dataset.cat !== f);
-    });
+    document.querySelectorAll('.project-card').forEach(c => c.classList.toggle('hidden', f !== 'all' && c.dataset.cat !== f));
+  });
+});
+
+// Pieces tabs
+document.querySelectorAll('.piece-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.piece-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.pieces-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('piece-' + tab.dataset.piece).classList.add('active');
   });
 });
 
 // Timeline animation
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.15 });
+const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:.15});
 document.querySelectorAll('.timeline-item').forEach(el => obs.observe(el));
 
 // Skill bars
@@ -1825,135 +2101,77 @@ const fillObs = new IntersectionObserver(entries => {
       fillObs.disconnect();
     }
   });
-}, { threshold: 0.3 });
+}, {threshold:.3});
 if (compSection) fillObs.observe(compSection);
 
-// ===== ADMIN SYSTEM =====
+// ===== ADMIN =====
 const ADMIN_USER = 'daniela';
 const ADMIN_PASS = 'dvlz2025';
 const STORAGE_KEY = 'book_edits';
+let isAdmin = false, editMode = false;
 
-let isAdmin = false;
-let editMode = false;
-
-// Load saved edits from localStorage
 function loadEdits() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return;
     const edits = JSON.parse(saved);
-    document.querySelectorAll('[data-editable]').forEach((el, i) => {
-      if (edits[i] !== undefined) el.innerHTML = edits[i];
-    });
+    document.querySelectorAll('[data-editable]').forEach((el, i) => { if(edits[i] !== undefined) el.innerHTML = edits[i]; });
   } catch(e) {}
 }
-
-// Save all edits
 function saveEdits() {
   const edits = {};
-  document.querySelectorAll('[data-editable]').forEach((el, i) => {
-    edits[i] = el.innerHTML;
-  });
+  document.querySelectorAll('[data-editable]').forEach((el,i) => { edits[i] = el.innerHTML; });
   localStorage.setItem(STORAGE_KEY, JSON.stringify(edits));
-  showStatus('✓ Guardado correctamente');
+  showStatus('✓ Guardado');
 }
-
-// Enable edit mode
 function enableEdit() {
-  document.querySelectorAll('[data-editable]').forEach(el => {
-    el.contentEditable = 'true';
-    el.spellcheck = false;
-  });
-  document.body.classList.add('edit-mode');
-  editMode = true;
+  document.querySelectorAll('[data-editable]').forEach(el => { el.contentEditable='true'; el.spellcheck=false; });
+  document.body.classList.add('edit-mode'); editMode = true;
   document.getElementById('toggleEdit').textContent = '🖊 Edición activa';
-  document.getElementById('toggleEdit').classList.add('adm-btn-on');
 }
-
 function disableEdit() {
-  document.querySelectorAll('[data-editable]').forEach(el => {
-    el.contentEditable = 'false';
-  });
-  document.body.classList.remove('edit-mode');
-  editMode = false;
+  document.querySelectorAll('[data-editable]').forEach(el => el.contentEditable='false');
+  document.body.classList.remove('edit-mode'); editMode = false;
   document.getElementById('toggleEdit').textContent = '👁 Solo lectura';
-  document.getElementById('toggleEdit').classList.remove('adm-btn-on');
 }
-
 function showStatus(msg) {
   const s = document.getElementById('adm-status');
-  s.textContent = msg;
-  setTimeout(() => { s.textContent = ''; }, 3000);
+  s.textContent = msg; setTimeout(() => s.textContent='', 3000);
 }
-
-// Export full HTML
 function exportHtml() {
-  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-  const blob = new Blob([html], { type: 'text/html' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'book_daniela_velez.html';
-  a.click();
-  showStatus('✓ HTML exportado');
+  const blob = new Blob(['<!DOCTYPE html>\n' + document.documentElement.outerHTML], {type:'text/html'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'book_daniela_velez.html'; a.click(); showStatus('✓ HTML exportado');
 }
 
-// Login
 const loginOverlay = document.getElementById('loginOverlay');
 const adminBar = document.getElementById('adminBar');
 
 document.getElementById('adminLoginLink').addEventListener('click', e => {
-  e.preventDefault();
-  loginOverlay.style.display = 'flex';
+  e.preventDefault(); loginOverlay.style.display='flex';
   setTimeout(() => document.getElementById('loginUser').focus(), 100);
 });
-
 document.getElementById('loginBtn').addEventListener('click', () => {
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value;
-  if (u === ADMIN_USER && p === ADMIN_PASS) {
-    loginOverlay.style.display = 'none';
-    adminBar.style.display = 'block';
-    isAdmin = true;
-    loadEdits();
-    enableEdit();
+  if (u===ADMIN_USER && p===ADMIN_PASS) {
+    loginOverlay.style.display='none'; adminBar.style.display='block';
+    isAdmin=true; loadEdits(); enableEdit();
   } else {
-    document.getElementById('loginError').textContent = 'Usuario o contraseña incorrectos';
-    document.getElementById('loginPass').value = '';
+    document.getElementById('loginError').textContent='Usuario o contraseña incorrectos';
+    document.getElementById('loginPass').value='';
   }
 });
-
-// Enter key on login
-document.getElementById('loginPass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('loginBtn').click();
-});
-document.getElementById('loginUser').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('loginPass').focus();
-});
-
-// Admin panel buttons
+document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('loginBtn').click(); });
+document.getElementById('loginUser').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('loginPass').focus(); });
 document.getElementById('adminClose').addEventListener('click', () => {
-  if (confirm('¿Cerrar el panel de admin? Los cambios guardados se conservan.')) {
-    adminBar.style.display = 'none';
-    disableEdit();
-    isAdmin = false;
-  }
+  if(confirm('¿Cerrar panel? Los cambios guardados se conservan.')) { adminBar.style.display='none'; disableEdit(); isAdmin=false; }
 });
-
-document.getElementById('toggleEdit').addEventListener('click', () => {
-  editMode ? disableEdit() : enableEdit();
-});
-
+document.getElementById('toggleEdit').addEventListener('click', () => editMode ? disableEdit() : enableEdit());
 document.getElementById('saveAll').addEventListener('click', saveEdits);
 document.getElementById('exportHtml').addEventListener('click', exportHtml);
+document.addEventListener('input', e => { if(e.target.hasAttribute('data-editable') && isAdmin) showStatus('● Sin guardar'); });
 
-// Auto-save on any edit
-document.addEventListener('input', e => {
-  if (e.target.hasAttribute('data-editable') && isAdmin) {
-    showStatus('● Cambios sin guardar — haz clic en Guardar');
-  }
-});
-
-// Load edits on page load (persists across visits)
 loadEdits();
 
 </script>

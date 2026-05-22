@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Daniela Vélez Book</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0a0a0a;--white:#fff;--gold:#c9a96e;
+  --gray-50:#f9f9f7;--gray-100:#f0ede8;--gray-200:#e2ddd6;
+  --gray-400:#a09b93;--gray-600:#6b6560;--gray-800:#2e2b28;
+  --green:#16a34a;--red:#dc2626;--blue:#2563eb;
+  --radius:10px;--font:'Inter',sans-serif;
+}
+body{font-family:var(--font);background:var(--gray-50);color:var(--black);min-height:100vh}
+
+/* LOGIN */
+#loginScreen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--black);
+}
+.login-box{
+  background:var(--white);border-radius:16px;padding:40px 36px;
+  width:340px;display:flex;flex-direction:column;gap:14px;
+}
+.login-logo{font-size:28px;font-weight:700;letter-spacing:.1em;color:var(--gold);text-align:center;margin-bottom:4px}
+.login-sub{font-size:13px;color:var(--gray-600);text-align:center;margin-bottom:8px}
+.login-box input{
+  padding:11px 14px;border:1.5px solid var(--gray-200);
+  border-radius:var(--radius);font-size:14px;font-family:var(--font);
+  outline:none;transition:.2s;
+}
+.login-box input:focus{border-color:var(--black)}
+.login-btn{
+  padding:12px;background:var(--black);color:var(--white);
+  border:none;border-radius:var(--radius);font-size:14px;font-weight:600;
+  cursor:pointer;transition:.2s;
+}
+.login-btn:hover{background:var(--gray-800)}
+.login-err{font-size:12px;color:var(--red);text-align:center;min-height:16px}
+
+/* ADMIN APP */
+#adminApp{display:none}
+
+/* TOP BAR */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--black);padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.topbar-logo{font-size:14px;font-weight:700;letter-spacing:.1em;color:var(--gold)}
+.topbar-right{display:flex;gap:10px;align-items:center}
+.topbar-btn{
+  padding:7px 14px;border-radius:100px;font-size:12px;font-weight:600;
+  cursor:pointer;border:none;transition:.2s;
+}
+.btn-preview{background:rgba(255,255,255,.1);color:var(--white)}
+.btn-preview:hover{background:rgba(255,255,255,.18)}
+.btn-logout{background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);font-size:11px}
+.btn-logout:hover{color:var(--white)}
+
+/* LAYOUT */
+.admin-layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 56px)}
+
+/* SIDEBAR */
+.sidebar{background:var(--white);border-right:1px solid var(--gray-200);padding:20px 0}
+.sidebar-section{padding:8px 16px 4px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400)}
+.sidebar-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 20px;font-size:13px;font-weight:500;
+  color:var(--gray-600);cursor:pointer;transition:.15s;
+  border:none;background:none;width:100%;text-align:left;
+}
+.sidebar-item:hover{background:var(--gray-50);color:var(--black)}
+.sidebar-item.active{background:var(--gray-100);color:var(--black);font-weight:600}
+.sidebar-item .ico{font-size:16px;width:20px;text-align:center}
+
+/* MAIN CONTENT */
+.main-content{padding:32px;max-width:900px}
+.panel{display:none}
+.panel.active{display:block}
+
+.panel-title{font-size:22px;font-weight:700;color:var(--black);margin-bottom:4px}
+.panel-sub{font-size:13px;color:var(--gray-600);margin-bottom:28px}
+
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.card-title{font-size:14px;font-weight:600;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card-title span{font-size:16px}
+
+/* FORM ELEMENTS */
+label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-400);margin-bottom:6px}
+input[type=text],input[type=url],textarea,select{
+  width:100%;padding:10px 12px;border:1.5px solid var(--gray-200);
+  border-radius:var(--radius);font-size:13px;font-family:var(--font);
+  outline:none;transition:.2s;background:var(--white);
+}
+input[type=text]:focus,input[type=url]:focus,textarea:focus,select:focus{border-color:var(--black)}
+textarea{resize:vertical;min-height:80px;line-height:1.5}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.form-group{margin-bottom:16px}
+
+/* IMAGE UPLOAD AREA */
+.img-upload-area{
+  border:2px dashed var(--gray-200);border-radius:var(--radius);
+  padding:28px;text-align:center;cursor:pointer;transition:.2s;
+  position:relative;background:var(--gray-50);
+}
+.img-upload-area:hover{border-color:var(--black);background:var(--gray-100)}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-upload-icon{font-size:32px;margin-bottom:8px}
+.img-upload-text{font-size:13px;font-weight:500;color:var(--gray-600)}
+.img-upload-sub{font-size:11px;color:var(--gray-400);margin-top:4px}
+.img-preview{
+  width:100%;max-height:180px;object-fit:cover;
+  border-radius:var(--radius);margin-top:12px;display:none;
+}
+
+/* PIECES MANAGER */
+.pieces-manager{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.piece-manager-card{
+  border:1px solid var(--gray-200);border-radius:var(--radius);
+  overflow:hidden;background:var(--white);
+}
+.piece-manager-thumb{
+  width:100%;padding-bottom:60%;position:relative;
+  background:var(--gray-100);
+}
+.piece-manager-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.piece-manager-thumb .thumb-placeholder{
+  position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:28px;color:var(--gray-400);
+}
+.piece-manager-body{padding:12px}
+.piece-manager-name{font-size:12px;font-weight:600;color:var(--black);margin-bottom:8px}
+.piece-upload-btn{
+  width:100%;padding:8px;border:1.5px solid var(--gray-200);
+  border-radius:var(--radius);background:none;font-size:12px;
+  font-weight:500;color:var(--gray-600);cursor:pointer;transition:.2s;
+  position:relative;overflow:hidden;
+}
+.piece-upload-btn:hover{border-color:var(--black);color:var(--black)}
+.piece-upload-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+/* VIDEO MANAGER */
+.video-manager{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.video-card{border:1px solid var(--gray-200);border-radius:var(--radius);padding:18px;background:var(--white)}
+.video-card-title{font-size:13px;font-weight:600;color:var(--black);margin-bottom:12px}
+.video-preview-wrap{
+  position:relative;width:100%;padding-bottom:56%;
+  background:var(--black);border-radius:8px;overflow:hidden;margin-bottom:12px;
+}
+.video-preview-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.video-preview-wrap .video-placeholder{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:6px;
+  color:rgba(255,255,255,.4);font-size:12px;
+}
+.video-placeholder span{font-size:28px}
+
+/* STATUS BADGE */
+.status-ok{display:inline-block;padding:3px 10px;background:#dcfce7;color:var(--green);border-radius:100px;font-size:11px;font-weight:600}
+.status-pending{display:inline-block;padding:3px 10px;background:#fef9c3;color:#854d0e;border-radius:100px;font-size:11px;font-weight:600}
+
+/* SAVE BTN */
+.save-btn{
+  padding:11px 28px;background:var(--black);color:var(--white);
+  border:none;border-radius:100px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:.2s;margin-top:8px;
+}
+.save-btn:hover{background:var(--gray-800)}
+.save-btn:active{transform:scale(.98)}
+
+/* TOAST */
+#toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--black);color:var(--white);
+  padding:12px 20px;border-radius:100px;
+  font-size:13px;font-weight:500;
+  opacity:0;transform:translateY(8px);
+  transition:all .3s;pointer-events:none;z-index:9999;
+}
+#toast.show{opacity:1;transform:translateY(0)}
+
+/* INSTRUCTIONS */
+.instruction-box{
+  background:linear-gradient(135deg,#fef3c7,#fff7ed);
+  border:1px solid #fcd34d;border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:24px;
+  font-size:13px;color:#92400e;line-height:1.6;
+}
+.instruction-box strong{color:#78350f}
+
+@media(max-width:700px){
+  .admin-layout{grid-template-columns:1fr}
+  .sidebar{display:flex;overflow-x:auto;border-right:none;border-bottom:1px solid var(--gray-200);padding:8px}
+  .sidebar-section{display:none}
+  .main-content{padding:20px}
+  .form-row{grid-template-columns:1fr}
+  .pieces-manager{grid-template-columns:1fr 1fr}
+  .video-manager{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">D V</div>
+    <p class="login-sub">Panel de administración · Book Daniela Vélez</p>
+    <input type="text" id="adminUser" placeholder="Usuario" autocomplete="off">
+    <input type="password" id="adminPass" placeholder="Contraseña">
+    <button class="login-btn" id="loginBtn">Entrar al panel</button>
+    <p class="login-err" id="loginErr"></p>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="adminApp">
+
+<div class="topbar">
+  <span class="topbar-logo">✏️ Admin · Daniela Vélez Book</span>
+  <div class="topbar-right">
+    <a href="index.html" target="_blank"><button class="topbar-btn btn-preview">👁 Ver book</button></a>
+    <button class="topbar-btn btn-logout" id="logoutBtn">Cerrar sesión</button>
+  </div>
+</div>
+
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section">Contenido</div>
+    <button class="sidebar-item active" data-panel="videos"><span class="ico">🎬</span>Videos / Reels</button>
+    <button class="sidebar-item" data-panel="gobernacion"><span class="ico">🏛️</span>Gobernación</button>
+    <button class="sidebar-item" data-panel="pasteur"><span class="ico">🔬</span>Lab. Pasteur</button>
+    <button class="sidebar-item" data-panel="tweetalig"><span class="ico">🎓</span>Tweetalig</button>
+    <button class="sidebar-item" data-panel="retail"><span class="ico">🛍️</span>Retail & Marcas</button>
+    <div class="sidebar-section" style="margin-top:12px">Perfil</div>
+    <button class="sidebar-item" data-panel="profile"><span class="ico">👤</span>Foto de perfil</button>
+    <button class="sidebar-item" data-panel="export"><span class="ico">⬇️</span>Exportar</button>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- VIDEOS PANEL -->
+    <div class="panel active" id="panel-videos">
+      <p class="panel-title">🎬 Videos y Reels</p>
+      <p class="panel-sub">Gestiona los 4 videos que aparecen en la sección de Producción Audiovisual</p>
+
+      <div class="instruction-box">
+        <strong>Cómo agregar un video:</strong> Pega el link de YouTube o YouTube Shorts. El sistema extrae automáticamente el ID y lo incrusta. Ejemplo: <code>https://youtube.com/shorts/b31XyqHW6vE</code>
+      </div>
+
+      <div class="video-manager" id="videoManager">
+        <!-- Generated by JS -->
+      </div>
+      <button class="save-btn" onclick="saveVideos()">💾 Guardar videos</button>
+    </div>
+
+    <!-- GOBERNACION -->
+    <div class="panel" id="panel-gobernacion">
+      <p class="panel-title">🏛️ Gobernación de Bolívar</p>
+      <p class="panel-sub">Sube las 3 piezas gráficas que aparecen en la galería de este cliente</p>
+      <div class="pieces-manager" id="pieces-gobernacion"></div>
+      <button class="save-btn" onclick="savePieces('gobernacion')">💾 Guardar imágenes</button>
+    </div>
+
+    <!-- PASTEUR -->
+    <div class="panel" id="panel-pasteur">
+      <p class="panel-title">🔬 Laboratorios Pasteur</p>
+      <p class="panel-sub">Sube las 3 piezas gráficas que aparecen en la galería de este cliente</p>
+      <div class="pieces-manager" id="pieces-pasteur"></div>
+      <button class="save-btn" onclick="savePieces('pasteur')">💾 Guardar imágenes</button>
+    </div>
+
+    <!-- TWEETALIG -->
+    <div class="panel" id="panel-tweetalig">
+      <p class="panel-title">🎓 Centro de Idiomas Tweetalig</p>
+      <p class="panel-sub">Sube las 3 piezas gráficas que aparecen en la galería de este cliente</p>
+      <div class="pieces-manager" id="pieces-tweetalig"></div>
+      <button class="save-btn" onclick="savePieces('tweetalig')">💾 Guardar imágenes</button>
+    </div>
+
+    <!-- RETAIL -->
+    <div class="panel" id="panel-retail">
+      <p class="panel-title">🛍️ Retail & Marcas</p>
+      <p class="panel-sub">Caseritos CTG · Perfumería 23 · SeaTrail — sube las piezas gráficas</p>
+      <div class="pieces-manager" id="pieces-retail"></div>
+      <button class="save-btn" onclick="savePieces('retail')">💾 Guardar imágenes</button>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="panel" id="panel-profile">
+      <p class="panel-title">👤 Foto de perfil</p>
+      <p class="panel-sub">Sube una foto tuya para mostrar en el hero o perfil del book</p>
+      <div class="card">
+        <div class="card-title"><span>📸</span> Foto principal</div>
+        <div class="img-upload-area" id="profileUploadArea">
+          <input type="file" accept="image/*" onchange="handleProfileUpload(this)">
+          <div class="img-upload-icon">📷</div>
+          <div class="img-upload-text">Haz clic o arrastra tu foto aquí</div>
+          <div class="img-upload-sub">JPG, PNG, WEBP — máx 5MB</div>
+          <img class="img-preview" id="profilePreview" src="" alt="Preview">
+        </div>
+        <button class="save-btn" onclick="saveProfile()">💾 Guardar foto</button>
+      </div>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="panel" id="panel-export">
+      <p class="panel-title">⬇️ Exportar book</p>
+      <p class="panel-sub">Descarga el HTML actualizado con todos tus cambios para subir a GitHub</p>
+      <div class="card">
+        <div class="card-title"><span>📄</span> Exportar HTML completo</div>
+        <p style="font-size:13px;color:var(--gray-600);margin-bottom:16px;line-height:1.6">
+          Descarga el archivo <code>index.html</code> con todo el contenido actualizado (textos e imágenes guardadas en el navegador). Sube ese archivo a tu repositorio de GitHub para actualizar el sitio.
+        </p>
+        <button class="save-btn" onclick="exportBook()">⬇️ Descargar book_actualizado.html</button>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-title"><span>🗑️</span> Resetear cambios</div>
+        <p style="font-size:13px;color:var(--gray-600);margin-bottom:16px">Borra todos los cambios guardados y vuelve al contenido original.</p>
+        <button class="save-btn" style="background:var(--red)" onclick="resetAll()">🗑️ Resetear todo</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const USER = 'daniela', PASS = 'dvlz2025';
+const STORE = 'dvlz_admin_data';
+
+// Load saved data
+function getData() {
+  try { return JSON.parse(localStorage.getItem(STORE)) || {}; } catch(e) { return {}; }
+}
+function setData(d) { localStorage.setItem(STORE, JSON.stringify(d)); }
+
+// Toast
+function toast(msg, dur=2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+// LOGIN
+document.getElementById('loginBtn').addEventListener('click', login);
+document.getElementById('adminPass').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+document.getElementById('adminUser').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('adminPass').focus(); });
+
+function login() {
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value;
+  if(u===USER && p===PASS) {
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminApp').style.display='block';
+    initPanels();
+  } else {
+    document.getElementById('loginErr').textContent='Usuario o contraseña incorrectos';
+    document.getElementById('adminPass').value='';
+  }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  if(confirm('¿Cerrar sesión?')) location.reload();
+});
+
+// SIDEBAR NAV
+document.querySelectorAll('.sidebar-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    item.classList.add('active');
+    document.getElementById('panel-' + item.dataset.panel).classList.add('active');
+  });
+});
+
+// VIDEO MANAGER
+const videoData = [
+  { id:'video1', label:'Video 1 · Gastronomía', client:'Caseritos CTG', default:'b31XyqHW6vE' },
+  { id:'video2', label:'Video 2 · Reel', client:'Contenido social', default:'7Pie3vGiPPQ' },
+  { id:'video3', label:'Video 3 · Reel', client:'Contenido social', default:'HejHFns4xVg' },
+  { id:'video4', label:'Video 4 · Reel', client:'Contenido social', default:'960GtOQHlGk' },
+];
+
+function extractYTId(url) {
+  const patterns = [
+    /youtu\.be\/([^?&\n]+)/,
+    /youtube\.com\/shorts\/([^?&\n]+)/,
+    /youtube\.com\/watch\?v=([^?&\n]+)/,
+    /youtube\.com\/embed\/([^?&\n]+)/,
+  ];
+  for(const p of patterns) { const m = url.match(p); if(m) return m[1]; }
+  return null;
+}
+
+function initVideoManager() {
+  const data = getData();
+  const container = document.getElementById('videoManager');
+  container.innerHTML = videoData.map(v => {
+    const savedId = data['video_'+v.id] || v.default;
+    return `<div class="video-card">
+      <div class="video-card-title">${v.label}</div>
+      <div class="video-preview-wrap" id="prev_${v.id}">
+        <iframe src="https://www.youtube.com/embed/${savedId}" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="form-group" style="margin-top:0">
+        <label>URL de YouTube</label>
+        <input type="url" id="url_${v.id}" value="https://www.youtube.com/embed/${savedId}" placeholder="https://youtube.com/shorts/..." style="margin-bottom:8px">
+        <button onclick="previewVideo('${v.id}')" style="padding:7px 14px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;background:none">🔍 Vista previa</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function previewVideo(id) {
+  const url = document.getElementById('url_'+id).value;
+  const ytId = extractYTId(url) || url.split('/').pop().split('?')[0];
+  if(ytId) {
+    document.getElementById('prev_'+id).innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}" frameborder="0" allowfullscreen></iframe>`;
+    toast('✓ Vista previa actualizada');
+  } else { toast('⚠️ URL inválida'); }
+}
+
+function saveVideos() {
+  const data = getData();
+  videoData.forEach(v => {
+    const url = document.getElementById('url_'+v.id).value;
+    const ytId = extractYTId(url) || url.split('/').pop().split('?')[0];
+    if(ytId) data['video_'+v.id] = ytId;
+  });
+  setData(data);
+  toast('✓ Videos guardados');
+}
+
+// PIECES MANAGER
+const piecesConfig = {
+  gobernacion: [
+    { key:'gov1', emoji:'🏛️', name:'Campaña institucional', hint:'Gobernador Blel / evento electoral' },
+    { key:'gov2', emoji:'📋', name:'Evento institucional', hint:'Sala de reuniones / rueda de prensa' },
+    { key:'gov3', emoji:'⚾', name:'Campaña BTL', hint:'Fundación Giovanny Urshela / béisbol' },
+  ],
+  pasteur: [
+    { key:'pas1', emoji:'🔬', name:'Pieza alianza', hint:'Pasteur + Seguros Bolívar' },
+    { key:'pas2', emoji:'📊', name:'Dashboard KPIs', hint:'Facturación mensual CTG' },
+    { key:'pas3', emoji:'🎪', name:'Evento corporativo', hint:'Sede Cartagena / lanzamiento' },
+  ],
+  tweetalig: [
+    { key:'tw1', emoji:'🎓', name:'Apertura inscripciones', hint:'Tweetalig 2024-PI' },
+    { key:'tw2', emoji:'📚', name:'Contenido social', hint:'Beneficios y exámenes incluidos' },
+    { key:'tw3', emoji:'🎉', name:'Evento académico', hint:'Feria de idiomas / cobertura' },
+  ],
+  retail: [
+    { key:'ret1', emoji:'🍽️', name:'Caseritos CTG', hint:'Pieza domicilios / rutas de entrega' },
+    { key:'ret2', emoji:'✨', name:'Perfumería 23', hint:'Identidad visual retail lujo' },
+    { key:'ret3', emoji:'⚓', name:'SeaTrail', hint:'Estrategia 30 años / contenido náutico' },
+  ],
+};
+
+function initPiecesManager(client) {
+  const data = getData();
+  const pieces = piecesConfig[client];
+  const container = document.getElementById('pieces-'+client);
+  container.innerHTML = pieces.map(p => {
+    const savedImg = data['piece_'+p.key] || '';
+    const hasImg = !!savedImg;
+    return `<div class="piece-manager-card">
+      <div class="piece-manager-thumb">
+        ${hasImg
+          ? `<img src="${savedImg}" alt="${p.name}" id="thumb_${p.key}">`
+          : `<div class="thumb-placeholder" id="thumb_${p.key}">${p.emoji}</div>`}
+      </div>
+      <div class="piece-manager-body">
+        <div class="piece-manager-name">${p.name}</div>
+        <div style="font-size:11px;color:var(--gray-400);margin-bottom:10px">${p.hint}</div>
+        ${hasImg ? `<span class="status-ok" style="margin-bottom:8px;display:inline-block">✓ Imagen cargada</span><br>` : `<span class="status-pending" style="margin-bottom:8px;display:inline-block">⏳ Sin imagen</span><br>`}
+        <button class="piece-upload-btn">
+          📁 ${hasImg ? 'Cambiar imagen' : 'Subir imagen'}
+          <input type="file" accept="image/*" onchange="handlePieceUpload(this,'${p.key}','${client}')">
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function handlePieceUpload(input, key, client) {
+  const file = input.files[0];
+  if(!file) return;
+  if(file.size > 5*1024*1024) { toast('⚠️ Imagen muy grande, máx 5MB'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const data = getData();
+    data['piece_'+key] = e.target.result;
+    setData(data);
+    // update thumb
+    const thumb = document.getElementById('thumb_'+key);
+    if(thumb.tagName === 'IMG') {
+      thumb.src = e.target.result;
+    } else {
+      const img = document.createElement('img');
+      img.src = e.target.result; img.alt = key; img.id = 'thumb_'+key;
+      thumb.replaceWith(img);
+    }
+    toast('✓ Imagen cargada — haz clic en Guardar');
+    // re-init to update status badge
+    setTimeout(() => initPiecesManager(client), 300);
+  };
+  reader.readAsDataURL(file);
+}
+
+function savePieces(client) {
+  toast('✓ Imágenes guardadas para ' + client);
+}
+
+// PROFILE
+function handleProfileUpload(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const prev = document.getElementById('profilePreview');
+    prev.src = e.target.result; prev.style.display='block';
+    const data = getData(); data['profile_img'] = e.target.result; setData(data);
+    toast('✓ Foto cargada — haz clic en Guardar');
+  };
+  reader.readAsDataURL(file);
+}
+function saveProfile() { toast('✓ Foto de perfil guardada'); }
+
+// EXPORT
+function exportBook() {
+  const data = getData();
+  // Open index.html and inject saved data as a script
+  const script = `<script>
+  // Admin saved data injected on export
+  (function(){
+    const d = ${JSON.stringify(data)};
+    localStorage.setItem('dvlz_admin_data', JSON.stringify(d));
+    // Apply text edits
+    const edits = d.text_edits || {};
+    document.querySelectorAll('[data-editable]').forEach((el,i)=>{ if(edits[i]) el.innerHTML=edits[i]; });
+    // Apply piece images
+    Object.entries(d).forEach(([k,v])=>{
+      if(k.startsWith('piece_')){
+        const cls = '.piece-img-'+k.replace('piece_','');
+        const el = document.querySelector(cls);
+        if(el){ el.style.backgroundImage='url('+v+')'; el.style.backgroundSize='cover'; }
+      }
+    });
+  })();
+  <\/script>`;
+  toast('⬇️ Preparando descarga...', 4000);
+  fetch('index.html').then(r=>r.text()).then(html=>{
+    const final = html.replace('</body>', script+'</body>');
+    const blob = new Blob([final], {type:'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'index.html'; a.click();
+    toast('✓ Descargado — súbelo a GitHub');
+  }).catch(()=>{
+    toast('⚠️ Abre el admin desde el servidor local o GitHub Pages');
+  });
+}
+
+function resetAll() {
+  if(confirm('¿Segura? Esto borrará TODOS los cambios guardados.')) {
+    localStorage.removeItem(STORE);
+    localStorage.removeItem('book_edits');
+    toast('✓ Todo reseteado'); setTimeout(()=>location.reload(), 1500);
+  }
+}
+
+// INIT
+function initPanels() {
+  initVideoManager();
+  Object.keys(piecesConfig).forEach(initPiecesManager);
+  const data = getData();
+  if(data.profile_img) {
+    const prev = document.getElementById('profilePreview');
+    prev.src = data.profile_img; prev.style.display='block';
+  }
+}
+</script>
+</body>
+</html>
